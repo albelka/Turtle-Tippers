@@ -59,5 +59,16 @@ namespace TurtleTippers
 
             Assert.Equal(expected, result);
         }
+
+        [Fact]
+        public void Test_Find_ReturnsSpecificPlayerFromDatabase()
+        {
+            Player testPlayer = new Player(10, "Tom");
+            testPlayer.Save();
+
+            Player result = Player.Find(testPlayer.Id);
+
+            Assert.Equal(result, testPlayer);
+        }
     }
 }

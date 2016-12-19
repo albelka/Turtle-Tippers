@@ -104,5 +104,38 @@ namespace TurtleTippers.Objects
                 conn.Close();
             }
         }
+
+        public static Player Find(int searchId)
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("SELECT * FROM players WHERE id = @PlayerId;", conn);
+            cmd.Parameters.AddWithValue("@PlayerId", searchId);
+
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+            int playerId = 0;
+            int playerTurtles = 0;
+            string playerName = null;
+            while(rdr.Read())
+            {
+                playerId = rdr.GetInt32(0);
+                playerTurtles = rdr.GetInt32(1);
+                playerName = rdr.GetString(2);
+
+            }
+            Player foundPlayer = new Player(playerTurtles, playerName, playerId);
+
+            if(rdr != null)
+            {
+                rdr.Close();
+            }
+            if(conn != null)
+            {
+                conn.Close();
+            }
+            return foundPlayer;
+        }
     }
 }
