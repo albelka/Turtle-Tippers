@@ -8,13 +8,13 @@ namespace TurtleTippers.Objects
     public class Player
     {
         public int Id { get; set; }
-        public int Turtle { get; set; }
+        public int Turtles { get; set; }
         public string Name { get; set; }
 
-        public Player(int PlayerTurtle, string PlayerName, int PlayerId = 0)
+        public Player(int PlayerTurtles, string PlayerName, int PlayerId = 0)
         {
             this.Id = PlayerId;
-            this.Turtle = PlayerTurtle;
+            this.Turtles = PlayerTurtles;
             this.Name = PlayerName;
         }
 
@@ -28,9 +28,80 @@ namespace TurtleTippers.Objects
             {
                 Player newPlayer = (Player) otherPlayer;
                 bool idEquality = this.Id == newPlayer.Id;
-                bool turtleEquality = this.Turtle == newPlayer.Turtle;
+                bool turtleEquality = this.Turtles == newPlayer.Turtles;
                 bool nameEquality = this.Name == newPlayer.Name;
                 return(idEquality && turtleEquality && nameEquality);
+            }
+        }
+
+        public static void DeleteAll()
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("DELETE FROM players;", conn);
+
+            cmd.ExecuteNonQuery();
+
+            if(conn != null)
+            {
+                conn.Close();
+            }
+        }
+
+        public static List<Player> GetAll()
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("SELECT * FROM players;", conn);
+
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+            List<Player> allPlayers = new List<Player> {};
+            while(rdr.Read())
+            {
+                int playerId = rdr.GetInt32(0);
+                int playerTurtles = rdr.GetInt32(1);
+                string playerName = rdr.GetString(2);
+
+                Player newPlayer = new Player(playerTurtles, playerName, playerId);
+                allPlayers.Add(newPlayer);
+            }
+            if(rdr != null)
+            {
+                rdr.Close();
+            }
+            if(conn != null)
+            {
+                conn.Close();
+            }
+            return allPlayers;
+        }
+
+        public void Save()
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("INSERT INTO players (turtles, name) OUTPUT INSERTED.id VALUES (@PlayerTurtles, @PlayerName);", conn);
+
+            cmd.Parameters.AddWithValue("@PlayerTurtles", this.Turtles);
+            cmd.Parameters.AddWithValue("@PlayerName", this.Name);
+
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+            while(rdr.Read())
+            {
+                this.Id = rdr.GetInt32(0);
+            }
+            if(rdr != null)
+            {
+                rdr.Close();
+            }
+            if(conn != null)
+            {
+                conn.Close();
             }
         }
     }

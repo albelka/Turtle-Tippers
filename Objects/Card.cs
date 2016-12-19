@@ -102,36 +102,12 @@ namespace TurtleTippers.Objects
 
             SqlCommand cmd = new SqlCommand("INSERT INTO cards (name, image, flavor_text, attack, defense, revive) OUTPUT INSERTED.id VALUES (@CardName, @CardImage, @CardFlavor, @CardAttack, @CardDefense, @CardRevive);", conn);
 
-            SqlParameter nameParameter = new SqlParameter();
-            nameParameter.ParameterName = "@CardName";
-            nameParameter.Value = this.Name;
-
-            SqlParameter imageParameter = new SqlParameter();
-            imageParameter.ParameterName = "@CardImage";
-            imageParameter.Value = this.Image;
-
-            SqlParameter flavorParameter = new SqlParameter();
-            flavorParameter.ParameterName = "@CardFlavor";
-            flavorParameter.Value = this.FlavorText;
-
-            SqlParameter attackParameter = new SqlParameter();
-            attackParameter.ParameterName = "@CardAttack";
-            attackParameter.Value = this.Attack;
-
-            SqlParameter defenseParameter = new SqlParameter();
-            defenseParameter.ParameterName = "@CardDefense";
-            defenseParameter.Value = this.Defense;
-
-            SqlParameter reviveParameter = new SqlParameter();
-            reviveParameter.ParameterName = "@CardRevive";
-            reviveParameter.Value = this.Revive;
-
-            cmd.Parameters.Add(nameParameter);
-            cmd.Parameters.Add(imageParameter);
-            cmd.Parameters.Add(flavorParameter);
-            cmd.Parameters.Add(attackParameter);
-            cmd.Parameters.Add(defenseParameter);
-            cmd.Parameters.Add(reviveParameter);
+            cmd.Parameters.AddWithValue("@CardName", this.Name);
+            cmd.Parameters.AddWithValue("@CardImage", this.Image);
+            cmd.Parameters.AddWithValue("@CardFlavor", this.FlavorText);
+            cmd.Parameters.AddWithValue("@CardAttack", this.Attack);
+            cmd.Parameters.AddWithValue("@CardDefense", this.Defense);
+            cmd.Parameters.AddWithValue("@CardRevive", this.Revive);
 
             SqlDataReader rdr = cmd.ExecuteReader();
 
