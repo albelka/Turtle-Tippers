@@ -45,5 +45,54 @@ namespace TurtleTippers.Objects
                 return(idEquality && nameEquality && imageEquality && flavorEquality && attackEquality && defenseEquality && reviveEquality);
             }
         }
+
+        public static void DeleteAll()
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("DELETE FROM cards;", conn);
+
+            cmd.ExecuteNonQuery();
+
+            if(conn != null)
+            {
+                conn.Close();
+            }
+        }
+
+        public static List<Card> GetAll()
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("SELECT * FROM cards;", conn);
+
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+            List<Card> allCards = new List<Card> {};
+            while(rdr.Read())
+            {
+                int cardId = rdr.GetInt32(0);
+                string cardName = rdr.GetString(1);
+                string cardImage = rdr.GetString(2);
+                string cardFlavor = rdr.GetString(3);
+                int cardAttack = rdr.GetInt32(4);
+                int cardDefense = rdr.GetInt32(5);
+                int cardRevive = rdr.GetInt32(6);
+
+                Card newCard = new Card(cardName, cardImage, cardFlavor, cardAttack, cardDefense, cardRevive, cardId);
+                allCards.Add(newCard);
+            }
+            if(rdr != null)
+            {
+                rdr.Close();
+            }
+            if(conn != null)
+            {
+                conn.Close();
+            }
+            return allCards;
+        }
     }
 }

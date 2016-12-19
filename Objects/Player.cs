@@ -18,18 +18,18 @@ namespace TurtleTippers.Objects
             this.Name = PlayerName;
         }
 
-        public override bool Equals(System.Object otherCard)
+        public override bool Equals(System.Object otherPlayer)
         {
-            if(!(otherCard is Card))
+            if(!(otherPlayer is Player))
             {
                 return false;
             }
             else
             {
-                Card newCard = (Card) otherCard;
-                bool idEquality = this.Id == newCard.Id;
-                bool turtleEquality = this.Turtle == newCard.Turtle;
-                bool nameEquality = this.Name == newCard.Name;
+                Player newPlayer = (Player) otherPlayer;
+                bool idEquality = this.Id == newPlayer.Id;
+                bool turtleEquality = this.Turtle == newPlayer.Turtle;
+                bool nameEquality = this.Name == newPlayer.Name;
                 return(idEquality && turtleEquality && nameEquality);
             }
         }

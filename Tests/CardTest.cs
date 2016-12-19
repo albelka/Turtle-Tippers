@@ -2,6 +2,8 @@ using Xunit;
 using TurtleTippers.Objects;
 using System.Collections.Generic;
 using System;
+using System.Data;
+using System.Data.SqlClient;
 
 namespace TurtleTippers
 {
@@ -18,9 +20,9 @@ namespace TurtleTippers
         }
 
         [Fact]
-        public void Test_BandsEmptyAtFirst()
+        public void Test_CardsEmptyAtFirst()
         {
-            int result = Band.GetAll().Count;
+            int result = Card.GetAll().Count;
 
             Assert.Equal(0, result);
         }
@@ -28,20 +30,20 @@ namespace TurtleTippers
         [Fact]
         public void Test_Equal_ReturnsTrueForSameData()
         {
-            Band band1 = new Band("Some Band Name", "Some Band Description");
-            Band band2 = new Band("Some Band Name", "Some Band Description");
+            Card card1 = new Card("Squirrel", "Content/img/squirrel.jpg", "A vicious, agile squirrel.", 1, 1, 0);
+            Card card2 = new Card("Squirrel", "Content/img/squirrel.jpg", "A vicious, agile squirrel.", 1, 1, 0);
 
-            Assert.Equal(band1, band2);
+            Assert.Equal(card1, card2);
         }
 
         // [Fact]
-        // public void Test_Save_SavesBandToDatabase()
+        // public void Test_Save_SavesCardToDatabase()
         // {
-        //     Band testBand = new Band("Some Band Name", "Some Band Description");
-        //     testBand.Save();
+        //     Card testCard = new Card("Some Card Name", "Some Card Description");
+        //     testCard.Save();
         //
-        //     List<Band> result = Band.GetAll();
-        //     List<Band> testList = new List<Band> {testBand};
+        //     List<Card> result = Card.GetAll();
+        //     List<Card> testList = new List<Card> {testCard};
         //
         //     Assert.Equal(testList, result);
         // }
@@ -49,26 +51,26 @@ namespace TurtleTippers
         // [Fact]
         // public void Test_Save_AssignsIdToSavedObject()
         // {
-        //     Band testBand = new Band("Some Band Name", "Some Band Description");
-        //     testBand.Save();
+        //     Card testCard = new Card("Some Card Name", "Some Card Description");
+        //     testCard.Save();
         //
-        //     Band savedBand = Band.GetAll()[0];
+        //     Card savedCard = Card.GetAll()[0];
         //
-        //     int result = savedBand.Id;
-        //     int expected = testBand.Id;
+        //     int result = savedCard.Id;
+        //     int expected = testCard.Id;
         //
         //     Assert.Equal(expected, result);
         // }
         //
         // [Fact]
-        // public void Test_Find_ReturnsSpecificBandFromDatabase()
+        // public void Test_Find_ReturnsSpecificCardFromDatabase()
         // {
-        //     Band testBand = new Band("Some Band Name", "Some Band Description");
-        //     testBand.Save();
+        //     Card testCard = new Card("Some Card Name", "Some Card Description");
+        //     testCard.Save();
         //
-        //     Band result = Band.Find(testBand.Id);
+        //     Card result = Card.Find(testCard.Id);
         //
-        //     Assert.Equal(result, testBand);
+        //     Assert.Equal(result, testCard);
         // }
     }
 }

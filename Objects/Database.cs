@@ -1,7 +1,7 @@
 using System.Data;
 using System.Data.SqlClient;
 
-namespace TurtleTipper
+namespace TurtleTippers
 {
   public class DB
   {
