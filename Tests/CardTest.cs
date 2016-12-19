@@ -60,15 +60,15 @@ namespace TurtleTippers
             Assert.Equal(expected, result);
         }
 
-        // [Fact]
-        // public void Test_Find_ReturnsSpecificCardFromDatabase()
-        // {
-        //     Card testCard = new Card("Some Card Name", "Some Card Description");
-        //     testCard.Save();
-        //
-        //     Card result = Card.Find(testCard.Id);
-        //
-        //     Assert.Equal(result, testCard);
-        // }
+        [Fact]
+        public void Test_Find_ReturnsSpecificCardFromDatabase()
+        {
+            Card testCard = new Card("Squirrel", "Content/img/squirrel.jpg", "A vicious, agile squirrel.", 1, 1, 0);
+            testCard.Save();
+
+            Card result = Card.Find(testCard.Id);
+
+            Assert.Equal(result, testCard);
+        }
     }
 }
