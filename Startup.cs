@@ -6,7 +6,7 @@ using Nancy.Owin;
 using Nancy.ViewEngines.Razor;
 using Xunit;
 
-namespace TurtleTipper
+namespace TurtleTippers
 {
   public class Startup
   {
