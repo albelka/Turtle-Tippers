@@ -20,7 +20,7 @@ namespace TurtleTippers
         [Fact]
         public void Test_DecksEmptyAtFirst()
         {
-            int result = Deck.GetDecks().Count;
+            int result = Deck.GetAll().Count;
 
             Assert.Equal(0, result);
         }
@@ -34,41 +34,20 @@ namespace TurtleTippers
             Assert.Equal(deck1, deck2);
         }
 
-        // [Fact]
-        // public void Test_Save_SavesDeckToDatabase()
-        // {
-        //     Deck testDeck = new Deck("Squirrel", "Content/img/squirrel.jpg", "A vicious, agile squirrel.", 1, 1, 0);
-        //     testDeck.Save();
-        //
-        //     List<Deck> result = Deck.GetAll();
-        //     List<Deck> testList = new List<Deck> {testDeck};
-        //
-        //     Assert.Equal(testList, result);
-        // }
-        //
-        // [Fact]
-        // public void Test_Save_AssignsIdToSavedObject()
-        // {
-        //     Deck testDeck = new Deck("Squirrel", "Content/img/squirrel.jpg", "A vicious, agile squirrel.", 1, 1, 0);
-        //     testDeck.Save();
-        //
-        //     Deck savedDeck = Deck.GetAll()[0];
-        //
-        //     int result = savedDeck.Id;
-        //     int expected = testDeck.Id;
-        //
-        //     Assert.Equal(expected, result);
-        // }
-        //
-        // [Fact]
-        // public void Test_Find_ReturnsSpecificDeckFromDatabase()
-        // {
-        //     Deck testDeck = new Deck("Squirrel", "Content/img/squirrel.jpg", "A vicious, agile squirrel.", 1, 1, 0);
-        //     testDeck.Save();
-        //
-        //     Deck result = Deck.Find(testDeck.Id);
-        //
-        //     Assert.Equal(result, testDeck);
-        // }
+        [Fact]
+        public void Test_BuildPlayerDeck_CreatesRandomDeckInDatabase()
+        {
+            // Build a deck for player 1.
+            Deck.BuildPlayerDeck(1);
+
+            List<Deck> result = Deck.GetAll();
+            List<Deck> expected = Deck.GetAll();
+
+            foreach(Deck deck in result)
+            {
+                Console.WriteLine("id: " + deck.Id + ", deck_id: " + deck.CardId + ", player_id: " + deck.PlayerId);
+            }
+            Assert.Equal(expected, result);
+        }
     }
 }

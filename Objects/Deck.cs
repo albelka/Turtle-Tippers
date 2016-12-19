@@ -26,6 +26,7 @@ namespace TurtleTippers.Objects
             this.HP = DeckHP;
         }
 
+
         public override bool Equals(System.Object otherDeck)
         {
             if(!(otherDeck is Deck))
@@ -61,7 +62,7 @@ namespace TurtleTippers.Objects
             }
         }
 
-        public static List<Deck> GetDecks()
+        public static List<Deck> GetAll()
         {
             SqlConnection conn = DB.Connection();
             conn.Open();
@@ -93,6 +94,45 @@ namespace TurtleTippers.Objects
                 conn.Close();
             }
             return wholeDecks;
+        }
+
+        public static void BuildPlayerDeck(int playerId, int deckSize = 30)
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("SELECT id FROM cards;", conn);
+
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+            List<int> cardIds = new List<int> {};
+            while(rdr.Read())
+            {
+                int newId = rdr.GetInt32(0);
+                cardIds.Add(newId);
+            }
+            if(rdr != null)
+            {
+                rdr.Close();
+            }
+
+            Random rand1 = new Random();
+            int randomCardId = rand1.Next(cardIds.Count-1);
+
+            for(int i = 0; i < deckSize; i++)
+            {
+                SqlCommand cmd2 = new SqlCommand("INSERT INTO decks (card_id, player_id) VALUES (@CardId, @PlayerId);", conn);
+
+                cmd2.Parameters.AddWithValue("@CardId", randomCardId);
+                cmd2.Parameters.AddWithValue("@PlayerId", playerId);
+
+                cmd2.ExecuteNonQuery();
+            }
+
+            if(conn != null)
+            {
+                conn.Close();
+            }
         }
     }
 }
