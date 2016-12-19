@@ -25,5 +25,25 @@ namespace TurtleTippers.Objects
             this.Defense = cardDefense;
             this.Revive = cardRevive;
         }
+
+        public override bool Equals(System.Object otherCard)
+        {
+            if(!(otherCard is Card))
+            {
+                return false;
+            }
+            else
+            {
+                Card newCard = (Card) otherCard;
+                bool idEquality = this.Id == newCard.Id;
+                bool nameEquality = this.Name == newCard.Name;
+                bool imageEquality = this.Image == newCard.Image;
+                bool flavorEquality = this.FlavorText == newCard.FlavorText;
+                bool attackEquality = this.Attack == newCard.Attack;
+                bool defenseEquality = this.Defense == newCard.Defense;
+                bool reviveEquality = this.Revive == newCard.Revive;
+                return(idEquality && nameEquality && imageEquality && flavorEquality && attackEquality && defenseEquality && reviveEquality);
+            }
+        }
     }
 }
