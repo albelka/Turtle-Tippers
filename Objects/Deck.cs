@@ -117,14 +117,19 @@ namespace TurtleTippers.Objects
             }
 
             Random rand1 = new Random();
-            int randomCardId = rand1.Next(cardIds.Count-1);
 
             for(int i = 0; i < deckSize; i++)
             {
-                SqlCommand cmd2 = new SqlCommand("INSERT INTO decks (card_id, player_id) VALUES (@CardId, @PlayerId);", conn);
+                int randomCardId = cardIds[rand1.Next(cardIds.Count-1)];
+                Deck newDeck = new Deck(randomCardId, playerId);
+                SqlCommand cmd2 = new SqlCommand("INSERT INTO decks (card_id, player_id, in_hand, in_play, discard, HP) VALUES (@CardId, @PlayerId, @InHand, @InPlay, @Discard, @HP);", conn);
 
-                cmd2.Parameters.AddWithValue("@CardId", randomCardId);
-                cmd2.Parameters.AddWithValue("@PlayerId", playerId);
+                cmd2.Parameters.AddWithValue("@CardId", newDeck.CardId);
+                cmd2.Parameters.AddWithValue("@PlayerId", newDeck.PlayerId);
+                cmd2.Parameters.AddWithValue("@InHand", newDeck.InHand);
+                cmd2.Parameters.AddWithValue("@InPlay", newDeck.InPlay);
+                cmd2.Parameters.AddWithValue("@Discard", newDeck.Discard);
+                cmd2.Parameters.AddWithValue("@HP", newDeck.HP);
 
                 cmd2.ExecuteNonQuery();
             }

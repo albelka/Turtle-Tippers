@@ -35,17 +35,19 @@ namespace TurtleTippers
         }
 
         [Fact]
-        public void Test_BuildPlayerDeck_CreatesRandomDeckInDatabase()
+        public void Test_BuildPlayerDeck_CreatesRandomDeckOf30InDatabase()
         {
+            Player newPlayer = new Player(10, "Tom");
+            newPlayer.Save();
             // Build a deck for player 1.
-            Deck.BuildPlayerDeck(1);
+            Deck.BuildPlayerDeck(newPlayer.Id);
 
-            List<Deck> result = Deck.GetAll();
-            List<Deck> expected = Deck.GetAll();
+            int result = Deck.GetAll().Count;
+            int expected = 30;
 
-            foreach(Deck deck in result)
+            foreach(Deck deck in Deck.GetAll())
             {
-                Console.WriteLine("id: " + deck.Id + ", deck_id: " + deck.CardId + ", player_id: " + deck.PlayerId);
+                Console.WriteLine("id: " + deck.Id + ", card_id: " + deck.CardId + ", player_id: " + deck.PlayerId);
             }
             Assert.Equal(expected, result);
         }
