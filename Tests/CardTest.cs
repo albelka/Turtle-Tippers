@@ -36,32 +36,32 @@ namespace TurtleTippers
             Assert.Equal(card1, card2);
         }
 
-        // [Fact]
-        // public void Test_Save_SavesCardToDatabase()
-        // {
-        //     Card testCard = new Card("Some Card Name", "Some Card Description");
-        //     testCard.Save();
-        //
-        //     List<Card> result = Card.GetAll();
-        //     List<Card> testList = new List<Card> {testCard};
-        //
-        //     Assert.Equal(testList, result);
-        // }
-        //
-        // [Fact]
-        // public void Test_Save_AssignsIdToSavedObject()
-        // {
-        //     Card testCard = new Card("Some Card Name", "Some Card Description");
-        //     testCard.Save();
-        //
-        //     Card savedCard = Card.GetAll()[0];
-        //
-        //     int result = savedCard.Id;
-        //     int expected = testCard.Id;
-        //
-        //     Assert.Equal(expected, result);
-        // }
-        //
+        [Fact]
+        public void Test_Save_SavesCardToDatabase()
+        {
+            Card testCard = new Card("Squirrel", "Content/img/squirrel.jpg", "A vicious, agile squirrel.", 1, 1, 0);
+            testCard.Save();
+
+            List<Card> result = Card.GetAll();
+            List<Card> testList = new List<Card> {testCard};
+
+            Assert.Equal(testList, result);
+        }
+
+        [Fact]
+        public void Test_Save_AssignsIdToSavedObject()
+        {
+            Card testCard = new Card("Squirrel", "Content/img/squirrel.jpg", "A vicious, agile squirrel.", 1, 1, 0);
+            testCard.Save();
+
+            Card savedCard = Card.GetAll()[0];
+
+            int result = savedCard.Id;
+            int expected = testCard.Id;
+
+            Assert.Equal(expected, result);
+        }
+
         // [Fact]
         // public void Test_Find_ReturnsSpecificCardFromDatabase()
         // {

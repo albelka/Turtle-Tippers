@@ -94,5 +94,59 @@ namespace TurtleTippers.Objects
             }
             return allCards;
         }
+
+        public void Save()
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("INSERT INTO cards (name, image, flavor_text, attack, defense, revive) OUTPUT INSERTED.id VALUES (@CardName, @CardImage, @CardFlavor, @CardAttack, @CardDefense, @CardRevive);", conn);
+
+            SqlParameter nameParameter = new SqlParameter();
+            nameParameter.ParameterName = "@CardName";
+            nameParameter.Value = this.Name;
+
+            SqlParameter imageParameter = new SqlParameter();
+            imageParameter.ParameterName = "@CardImage";
+            imageParameter.Value = this.Image;
+
+            SqlParameter flavorParameter = new SqlParameter();
+            flavorParameter.ParameterName = "@CardFlavor";
+            flavorParameter.Value = this.FlavorText;
+
+            SqlParameter attackParameter = new SqlParameter();
+            attackParameter.ParameterName = "@CardAttack";
+            attackParameter.Value = this.Attack;
+
+            SqlParameter defenseParameter = new SqlParameter();
+            defenseParameter.ParameterName = "@CardDefense";
+            defenseParameter.Value = this.Defense;
+
+            SqlParameter reviveParameter = new SqlParameter();
+            reviveParameter.ParameterName = "@CardRevive";
+            reviveParameter.Value = this.Revive;
+
+            cmd.Parameters.Add(nameParameter);
+            cmd.Parameters.Add(imageParameter);
+            cmd.Parameters.Add(flavorParameter);
+            cmd.Parameters.Add(attackParameter);
+            cmd.Parameters.Add(defenseParameter);
+            cmd.Parameters.Add(reviveParameter);
+
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+            while(rdr.Read())
+            {
+                this.Id = rdr.GetInt32(0);
+            }
+            if(rdr != null)
+            {
+                rdr.Close();
+            }
+            if(conn != null)
+            {
+                conn.Close();
+            }
+        }
     }
 }
