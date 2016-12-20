@@ -9,9 +9,9 @@ namespace TurtleTippers.Objects
     {
       public int Id {get; set;}
       public int CurrentPlayerId {get; set;}
-    }
 
-    public Arena(int currentPlayerId=0 int id = 0)
+
+    public Arena(int currentPlayerId=0, int id = 0)
     {
       this.Id = id;
       this.CurrentPlayerId = currentPlayerId;
@@ -24,7 +24,7 @@ namespace TurtleTippers.Objects
 
       List<Player> allPlayers = Player.GetAll();
 
-      this.CurrentPlayerId = allPlayers[flip].GetId();
+      this.CurrentPlayerId = allPlayers[flip].Id;
     }
-    
+  }
 }
