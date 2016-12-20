@@ -146,7 +146,7 @@ namespace TurtleTippers.Objects
             SqlConnection conn = DB.Connection();
             conn.Open();
 
-            SqlCommand cmd = new SqlCommand("SELECT * FROM decks WHERE player_id = @PlayerId AND in_hand <> true AND in_play <> true AND discard <> true;", conn);
+            SqlCommand cmd = new SqlCommand("SELECT * FROM decks WHERE player_id = @PlayerId AND in_hand <> 1 AND in_play <> 1 AND discard <> 1;", conn);
 
             cmd.Parameters.AddWithValue("@PlayerId", player.Id);
 
@@ -186,7 +186,7 @@ namespace TurtleTippers.Objects
 
                 List<Deck> playerDeck = Deck.GetPlayerDeck(player);
                 Deck nextDeckCard = playerDeck[0];
-                SqlCommand cmd = new SqlCommand("UPDATE decks in_hand = true WHERE id = @DeckId AND player_id = @PlayerId;", conn);
+                SqlCommand cmd = new SqlCommand("UPDATE decks SET in_hand = 1 WHERE id = @DeckId AND player_id = @PlayerId;", conn);
 
                 cmd.Parameters.AddWithValue("@DeckId", nextDeckCard.Id);
                 cmd.Parameters.AddWithValue("@PlayerId", player.Id);
@@ -205,8 +205,10 @@ namespace TurtleTippers.Objects
             SqlConnection conn = DB.Connection();
             conn.Open();
 
-            SqlCommand cmd = new SqlCommand("SELECT cards.* FROM cards JOIN decks ON (cards.id = decks.card_id) WHERE cards.player_id = @PlayerId AND deck.in_hand = true;", conn);
+            SqlCommand cmd = new SqlCommand("SELECT cards.* FROM cards JOIN decks ON (cards.id = decks.card_id) WHERE decks.player_id = @PlayerId AND decks.in_hand = 1;", conn);
             cmd.Parameters.AddWithValue("@PlayerId", player.Id);
+
+            SqlDataReader rdr = cmd.ExecuteReader();
 
             List<Card> handCards = new List<Card> {};
             while(rdr.Read())
