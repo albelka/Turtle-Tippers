@@ -91,5 +91,26 @@ namespace TurtleTippers
             Assert.Equal(testTurtle, damagedResult);
             Assert.Equal(databaseExpected, databaseResult);
         }
+
+        [Fact]
+        public void Test_TurtleUnflip_UpdateTurtleInObjectAndDB()
+        {
+            Player newPlayer = new Player(8, "Tom");
+            newPlayer.Save();
+
+            newPlayer.TurtleUnflip();
+            newPlayer.TurtleUnflip();
+
+            int undamagedResult = newPlayer.Turtles;
+            int testTurtle = 10;
+
+            Player databasePlayer = Player.Find(newPlayer.Id);
+
+            int databaseResult = databasePlayer.Turtles;
+            int databaseExpected = 10;
+
+            Assert.Equal(testTurtle, undamagedResult);
+            Assert.Equal(databaseExpected, databaseResult);
+        }
     }
 }

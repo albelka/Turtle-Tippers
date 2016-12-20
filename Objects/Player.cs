@@ -156,5 +156,24 @@ namespace TurtleTippers.Objects
                 conn.Close();
             }
         }
+
+        public void TurtleUnflip()
+        {
+            this.Turtles += 1;
+
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("UPDATE players SET turtles = @PlayerTurtles WHERE id = @PlayerId;", conn);
+            cmd.Parameters.AddWithValue("@PlayerTurtles", this.Turtles);
+            cmd.Parameters.AddWithValue("@PlayerId", this.Id);
+
+            cmd.ExecuteNonQuery();
+
+            if(conn != null)
+            {
+                conn.Close();
+            }
+        }
     }
 }
