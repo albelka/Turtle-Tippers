@@ -161,7 +161,6 @@ namespace TurtleTippers.Objects
             for(int i = 0; i < deckSize; i++)
             {
                 int randomCardId = cardIds[rand1.Next(cardIds.Count)];
-                Console.WriteLine(cardIds.Count + " "+ randomCardId);
                 Card selectedCard = Card.Find(randomCardId);
                 Deck newDeck = new Deck(selectedCard.Id, player.Id, selectedCard.Defense);
                 SqlCommand cmd2 = new SqlCommand("INSERT INTO decks (card_id, player_id, in_hand, in_play, discard, HP) VALUES (@CardId, @PlayerId, @InHand, @InPlay, @Discard, @HP);", conn);
@@ -391,6 +390,100 @@ namespace TurtleTippers.Objects
                 conn.Close();
             }
             return foundCard;
+        }
+
+        // Reduce hp of the deck card in database, maybe also update the object
+        public void TakeDamage(int damageAmount)
+        {
+            this.HP -= damageAmount;
+            if(this.HP < 0)
+            {
+                this.HP = 0;
+            }
+
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("UPDATE decks SET HP = @DeckHP WHERE id = @DeckId;", conn);
+            cmd.Parameters.AddWithValue("@DeckHP", this.HP);
+            cmd.Parameters.AddWithValue("@DeckId", this.Id);
+
+            cmd.ExecuteNonQuery();
+
+            if(conn != null)
+            {
+                conn.Close();
+            }
+        }
+
+        public static List<Deck> GetPlayerAnimals(Player player)
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("SELECT decks.* FROM decks JOIN cards ON (decks.card_id = cards.id) WHERE decks.player_id = @PlayerId AND cards.Revive < 1;", conn);
+            cmd.Parameters.AddWithValue("@PlayerId", player.Id);
+
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+            List<Deck> playerAnimals = new List<Deck> {};
+            while(rdr.Read())
+            {
+                int deckId = rdr.GetInt32(0);
+                int deckCardId = rdr.GetInt32(1);
+                int deckPlayerId = rdr.GetInt32(2);
+                bool deckInHand = rdr.GetBoolean(3);
+                bool deckInPlay = rdr.GetBoolean(4);
+                bool deckDiscard = rdr.GetBoolean(5);
+                int deckHP = rdr.GetInt32(6);
+
+                Deck newDeck = new Deck(deckCardId, deckPlayerId, deckHP, deckInHand, deckInPlay, deckDiscard, deckId);
+                playerAnimals.Add(newDeck);
+            }
+            if(rdr != null)
+            {
+                rdr.Close();
+            }
+            if(conn != null)
+            {
+                conn.Close();
+            }
+            return playerAnimals;
+        }
+
+        public static List<Deck> GetPlayerFruits(Player player)
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("SELECT decks.* FROM decks JOIN cards ON (decks.card_id = cards.id) WHERE decks.player_id = @PlayerId AND cards.Revive = 1;", conn);
+            cmd.Parameters.AddWithValue("@PlayerId", player.Id);
+
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+            List<Deck> playerFruits = new List<Deck> {};
+            while(rdr.Read())
+            {
+                int deckId = rdr.GetInt32(0);
+                int deckCardId = rdr.GetInt32(1);
+                int deckPlayerId = rdr.GetInt32(2);
+                bool deckInHand = rdr.GetBoolean(3);
+                bool deckInPlay = rdr.GetBoolean(4);
+                bool deckDiscard = rdr.GetBoolean(5);
+                int deckHP = rdr.GetInt32(6);
+
+                Deck newDeck = new Deck(deckCardId, deckPlayerId, deckHP, deckInHand, deckInPlay, deckDiscard, deckId);
+                playerFruits.Add(newDeck);
+            }
+            if(rdr != null)
+            {
+                rdr.Close();
+            }
+            if(conn != null)
+            {
+                conn.Close();
+            }
+            return playerFruits;
         }
     }
 }

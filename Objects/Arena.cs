@@ -26,5 +26,11 @@ namespace TurtleTippers.Objects
 
       this.CurrentPlayerId = allPlayers[flip].Id;
     }
+
+    // Method for when cards fight each other, probably also evaluate if a card dies
+    // public void CompareCards(Card1, Card2)
+    // {
+    //
+    // }
   }
 }

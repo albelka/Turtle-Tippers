@@ -189,5 +189,29 @@ namespace TurtleTippers
             Assert.Equal(handExpected, handResult);
             Assert.Equal(deckExpected, deckResult);
         }
+
+        [Fact]
+        public void Test_TakeDamage_UpdateHPInObjectAndDB()
+        {
+            Player newPlayer = new Player(10, "Tom");
+            newPlayer.Save();
+            Deck.BuildPlayerDeck(newPlayer);
+
+            Deck playerCard = Deck.GetPlayerAnimals(newPlayer)[0];
+            int startingHP = playerCard.HP;
+            playerCard.TakeDamage(4);
+
+            int damagedResult = playerCard.HP;
+            int testHP = 0;
+
+            Deck databaseCard = Deck.Find(playerCard.Id);
+
+            int databaseResult = databaseCard.HP;
+            int databaseExpected = 0;
+
+            Assert.Equal(true, startingHP > 0);
+            Assert.Equal(testHP, damagedResult);
+            Assert.Equal(databaseExpected, databaseResult);
+        }
     }
 }
