@@ -160,7 +160,8 @@ namespace TurtleTippers.Objects
 
             for(int i = 0; i < deckSize; i++)
             {
-                int randomCardId = cardIds[rand1.Next(cardIds.Count-1)];
+                int randomCardId = cardIds[rand1.Next(cardIds.Count)];
+                Console.WriteLine(cardIds.Count + " "+ randomCardId);
                 Card selectedCard = Card.Find(randomCardId);
                 Deck newDeck = new Deck(selectedCard.Id, player.Id, selectedCard.Defense);
                 SqlCommand cmd2 = new SqlCommand("INSERT INTO decks (card_id, player_id, in_hand, in_play, discard, HP) VALUES (@CardId, @PlayerId, @InHand, @InPlay, @Discard, @HP);", conn);
@@ -355,7 +356,7 @@ namespace TurtleTippers.Objects
             SqlConnection conn = DB.Connection();
             conn.Open();
 
-            SqlCommand = new SqlCommand("SELECT * FROM cards WHERE id = @CardId;", conn);
+            SqlCommand cmd = new SqlCommand("SELECT * FROM cards WHERE id = @CardId;", conn);
             cmd.Parameters.AddWithValue("@CardId", this.CardId);
 
             SqlDataReader rdr = cmd.ExecuteReader();
