@@ -132,8 +132,8 @@ namespace TurtleTippers
             Deck.DrawCard(newPlayer);
 
             List<Deck> playerHand = Deck.GetPlayerHand(newPlayer);
-            Deck.PlayCard(newPlayer, playerHand[0].Id);
-            Deck.PlayCard(newPlayer, playerHand[1].Id);
+            playerHand[0].PlayCard();
+            playerHand[1].PlayCard();
 
             int handResult = Deck.GetPlayerHand(newPlayer).Count;
             int handExpected = 3;
@@ -156,7 +156,7 @@ namespace TurtleTippers
             newPlayer.Save();
             Deck.BuildPlayerDeck(newPlayer);
 
-            Deck.PlayCard(newPlayer, Deck.GetPlayerDeck(newPlayer)[1].Id);
+            Deck.GetPlayerDeck(newPlayer)[1].PlayCard();
 
             int playResult = Deck.GetCardsInPlay(newPlayer).Count;
             int playExpected = 0;
@@ -188,6 +188,30 @@ namespace TurtleTippers
 
             Assert.Equal(handExpected, handResult);
             Assert.Equal(deckExpected, deckResult);
+        }
+
+        [Fact]
+        public void Test_TakeDamage_UpdateHPInObjectAndDB()
+        {
+            Player newPlayer = new Player(10, "Tom");
+            newPlayer.Save();
+            Deck.BuildPlayerDeck(newPlayer);
+
+            Deck playerCard = Deck.GetPlayerAnimals(newPlayer)[0];
+            int startingHP = playerCard.HP;
+            playerCard.TakeDamage(4);
+
+            int damagedResult = playerCard.HP;
+            int testHP = 0;
+
+            Deck databaseCard = Deck.Find(playerCard.Id);
+
+            int databaseResult = databaseCard.HP;
+            int databaseExpected = 0;
+
+            Assert.Equal(true, startingHP > 0);
+            Assert.Equal(testHP, damagedResult);
+            Assert.Equal(databaseExpected, databaseResult);
         }
     }
 }
