@@ -275,17 +275,15 @@ namespace TurtleTippers.Objects
             return playerHands;
         }
 
-        public static void PlayCard(Player player, int deckId)
+        public void PlayCard()
         {
             SqlConnection conn = DB.Connection();
             conn.Open();
 
-            Deck selectedDeck = Deck.Find(deckId);
-
-            if(selectedDeck.InHand == true)
+            if(this.InHand == true)
             {
                 SqlCommand cmd = new SqlCommand("UPDATE decks SET in_hand = 0, in_play = 1 WHERE id = @DeckId;", conn);
-                cmd.Parameters.AddWithValue("@DeckId", deckId);
+                cmd.Parameters.AddWithValue("@DeckId", this.Id);
                 cmd.ExecuteNonQuery();
             }
             else

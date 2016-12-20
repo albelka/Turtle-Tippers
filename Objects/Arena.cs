@@ -28,9 +28,22 @@ namespace TurtleTippers.Objects
     }
 
     // Method for when cards fight each other, probably also evaluate if a card dies
-    // public void CompareCards(Card1, Card2)
+    // public void CompareCards(Deck deck1, Deck deck2)
     // {
+    //     Card card1 = deck1.GetCard();
+    //     Card card2 = deck2.GetCard();
     //
+    //     deck1.TakeDamage(card2.Attack);
+    //     deck2.TakeDamage(card1.Attack);
+    //
+    //     if(deck1.HP <= 0)
+    //     {
+    //         deck1.
+    //     }
+    //     else if(deck2.HP <= 0)
+    //     {
+    //
+    //     }
     // }
   }
 }

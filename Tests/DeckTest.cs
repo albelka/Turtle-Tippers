@@ -132,8 +132,8 @@ namespace TurtleTippers
             Deck.DrawCard(newPlayer);
 
             List<Deck> playerHand = Deck.GetPlayerHand(newPlayer);
-            Deck.PlayCard(newPlayer, playerHand[0].Id);
-            Deck.PlayCard(newPlayer, playerHand[1].Id);
+            playerHand[0].PlayCard();
+            playerHand[1].PlayCard();
 
             int handResult = Deck.GetPlayerHand(newPlayer).Count;
             int handExpected = 3;
@@ -156,7 +156,7 @@ namespace TurtleTippers
             newPlayer.Save();
             Deck.BuildPlayerDeck(newPlayer);
 
-            Deck.PlayCard(newPlayer, Deck.GetPlayerDeck(newPlayer)[1].Id);
+            Deck.GetPlayerDeck(newPlayer)[1].PlayCard();
 
             int playResult = Deck.GetCardsInPlay(newPlayer).Count;
             int playExpected = 0;
