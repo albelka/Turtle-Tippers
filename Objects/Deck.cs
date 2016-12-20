@@ -333,5 +333,21 @@ namespace TurtleTippers.Objects
             }
             return playerPlays;
         }
+
+        public static void DiscardCard(Player player, int deckId)
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("UPDATE decks SET in_hand = 0, in_play = 0, discard = 1 WHERE id = @DeckId;", conn);
+            cmd.Parameters.AddWithValue("@DeckId", deckId);
+
+            cmd.ExecuteNonQuery();
+
+            if(conn != null)
+            {
+                conn.Close();
+            }
+        }
     }
 }

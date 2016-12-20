@@ -167,5 +167,27 @@ namespace TurtleTippers
             Assert.Equal(playExpected, playResult);
             Assert.Equal(deckExpected, deckResult);
         }
+
+        [Fact]
+        public void Test_DiscardCard_UpdatesDatabaseToDiscardSelectedCard()
+        {
+            Player newPlayer = new Player(10, "Tom");
+            newPlayer.Save();
+            Deck.BuildPlayerDeck(newPlayer);
+
+            Deck.DrawCard(newPlayer);
+            Deck.DrawCard(newPlayer);
+
+            Deck.DiscardCard(newPlayer, Deck.GetPlayerHand(newPlayer)[0].Id);
+
+            int handResult = Deck.GetPlayerHand(newPlayer).Count;
+            int handExpected = 1;
+
+            int deckResult = Deck.GetPlayerDeck(newPlayer).Count;
+            int deckExpected = 28;
+
+            Assert.Equal(handExpected, handResult);
+            Assert.Equal(deckExpected, deckResult);
+        }
     }
 }
