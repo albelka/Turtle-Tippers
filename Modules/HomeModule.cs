@@ -14,7 +14,7 @@ namespace TurtleTippers
             player1.Save();
             Player player2 = new Player(5, "player2");
             player2.Save();
-            Arena newArena = new Arena();
+            Arena newArena = new Arena(player1.Id, player2.Id);
             newArena.SetCurrentPlayer();
             Deck.BuildPlayerDeck(player1);
             Deck.BuildPlayerDeck(player2);
@@ -25,13 +25,11 @@ namespace TurtleTippers
             Deck.DrawCard(player1);
             Deck.DrawCard(player2);
 
-            int played1 = Deck.GetPlayerHand(player1)[0].Id;
-            Deck.PlayCard(player1, played1);
-            int played2 = Deck.GetPlayerHand(player2)[0].Id;
-            Deck.PlayCard(player2, played2);
+            Deck.GetPlayerHand(player1)[0].PlayCard();
+            Deck.GetPlayerHand(player2)[0].PlayCard();
 
             Deck.DrawCard(player1);
-            
+
             Dictionary<string, object> model = new Dictionary<string, object>();
             model.Add("player1", player1);
             model.Add("player2", player2);
