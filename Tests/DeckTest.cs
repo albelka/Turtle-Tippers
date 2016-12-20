@@ -117,5 +117,55 @@ namespace TurtleTippers
             Assert.Equal(handExpected, handResult);
             Assert.Equal(deckExpected, deckResult);
         }
+
+        [Fact]
+        public void Test_PlayCard_UpdatesDatabaseForPlayerToMoveCardFromHandToPlay()
+        {
+            Player newPlayer = new Player(10, "Tom");
+            newPlayer.Save();
+            Deck.BuildPlayerDeck(newPlayer);
+
+            Deck.DrawCard(newPlayer);
+            Deck.DrawCard(newPlayer);
+            Deck.DrawCard(newPlayer);
+            Deck.DrawCard(newPlayer);
+            Deck.DrawCard(newPlayer);
+
+            List<Deck> playerHand = Deck.GetPlayerHand(newPlayer);
+            Deck.PlayCard(newPlayer, playerHand[0].Id);
+            Deck.PlayCard(newPlayer, playerHand[1].Id);
+
+            int handResult = Deck.GetPlayerHand(newPlayer).Count;
+            int handExpected = 3;
+
+            int deckResult = Deck.GetPlayerDeck(newPlayer).Count;
+            int deckExpected = 25;
+
+            int playResult = Deck.GetCardsInPlay(newPlayer).Count;
+            int playExpected = 2;
+
+            Assert.Equal(handExpected, handResult);
+            Assert.Equal(deckExpected, deckResult);
+            Assert.Equal(playResult, playExpected);
+        }
+
+        [Fact]
+        public void Test_PlayCard_DoesNotMoveCardToPlayIfNotInHand()
+        {
+            Player newPlayer = new Player(10, "Tom");
+            newPlayer.Save();
+            Deck.BuildPlayerDeck(newPlayer);
+
+            Deck.PlayCard(newPlayer, Deck.GetPlayerDeck(newPlayer)[1].Id);
+
+            int playResult = Deck.GetCardsInPlay(newPlayer).Count;
+            int playExpected = 0;
+
+            int deckResult = Deck.GetPlayerDeck(newPlayer).Count;
+            int deckExpected = 30;
+
+            Assert.Equal(playExpected, playResult);
+            Assert.Equal(deckExpected, deckResult);
+        }
     }
 }
