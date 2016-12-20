@@ -23,11 +23,11 @@ Flip a coin.
   * Input: Flip
   * Output: 1
 
-Draw a random card from the master deck.
+^Draw a random card from the master deck.
 * Input: Draw one
 * Output: Card ID 3
 
-Build a 30 card play deck.
+^Build a 30 card play deck.
 * Input: Draw 30
 * Output: {card1, card2, card3...}
 

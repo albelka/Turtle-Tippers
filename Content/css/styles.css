@@ -1,0 +1,56 @@
+.turtles img {
+  height: 100px;
+}
+#hand img {
+  height: 240px;
+}
+.vis-hidden {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+
+/*label {
+  border: 3px solid black;
+}*/
+
+/*input:focus + label {
+  border-color: blue;
+}*/
+
+input:checked + label {
+  box-shadow: -10px 8px 5px red;
+}
+
+/*input:focus:checked + label {
+  border-color: green;
+}*/
+.cardDisplay {
+  border: 3px solid black;
+  border-radius: 10px;
+  height: 240px;
+  width: 180px;
+  padding: 15px;
+}
+.cardImage img {
+  display: block;
+  margin: 0 auto;
+  height: 150px;
+}
+.cardFlavor {
+  font-size: 12px;
+  text-align: center;
+}
+.cardAttack{
+  font-size: 24px;
+}
+.cardHP{
+  font-size: 24px;
+  text-align: right;
+  width: 130px;
+}
