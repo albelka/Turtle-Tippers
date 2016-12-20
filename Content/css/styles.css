@@ -1,3 +1,7 @@
+h1 {
+  text-align: center;
+}
+
 .turtles img {
   height: 100px;
 }
@@ -35,9 +39,10 @@ input:checked + label {
 .cardDisplay {
   border: 3px solid black;
   border-radius: 10px;
-  height: 240px;
+  height: 265px;
   width: 180px;
   padding: 15px;
+  margin: 0px 5px;
 }
 .cardImage img {
   display: block;
@@ -56,6 +61,7 @@ input:checked + label {
 .cardFlavor {
   font-size: 12px;
   text-align: center;
+  height: 50px;
 }
 .cardAttack{
   font-size: 24px;
@@ -64,4 +70,52 @@ input:checked + label {
   font-size: 24px;
   text-align: right;
   width: 130px;
+}
+
+
+
+.inPlay {
+  height: 600px;
+
+}
+.player-title {
+  text-align: center;
+}
+
+.inPlay .cardDisplay {
+  border: 3px solid black;
+  border-radius: 10px;
+  height: 180px;
+  width: 140px;
+  padding: 5px;
+  margin: 15px 5px;
+
+}
+.inPlay .cardImage img {
+  display: block;
+  margin: 0 auto;
+  max-height: 100%;
+  max-width: 100%;
+}
+.inPlay .image-border {
+  height: 120px;
+  width: 110px;
+  margin: 8px;
+  overflow: hidden;
+}
+.inPlay .cardImage {
+
+}
+.inPlay .cardFlavor {
+  font-size: 12px;
+  text-align: center;
+  height: 2px;
+}
+.inPlay .cardAttack{
+  font-size: 24px;
+}
+.inPlay .cardHP{
+  font-size: 24px;
+  text-align: right;
+  width: 90px;
 }

@@ -4,45 +4,76 @@
     <h1>Turtle Tippers</h1>
     <div class="row">
       <div class="col-sm-6">
+        <h2 class="player-title">Player 1</h2>
         <div class="row">
           <div class="col-sm-4 turtles">
-            <h2>Player 1</h2>
-            <img src="/Content/img/turtle.png" id="p1t1" alt="an image of a turtle"/>
-            <img src="/../Content/img/turtle.png" id="p1t2" alt="an image of a turtle"/>
-            <img src="/../Content/img/turtle.png" id="p1t3" alt="an image of a turtle"/>
-            <img src="/../Content/img/turtle.png" id="p1t4" alt="an image of a turtle"/>
-            <img src="/../Content/img/turtle.png" id="p1t5" alt="an image of a turtle"/>
+            @for(int i=0; i< @Model["player1"].Turtles; i++)
+            {
+              <img src="/../Content/img/turtle.png" alt="an image of a turtle"/>
+            }
+            @if (@Model["player1"].Turtles < 5)
+            {
+              @for(int i=0; i< 5-@Model["player1"].Turtles; i++)
+              {
+                <img src="/../Content/img/upside-down-turtle.png" alt="an image of a tipped turtle"/>
+              }
+            }
           </div>
-          <div class="col-sm-8">
-
+          <div class="col-sm-8 inPlay" >
+            @foreach(var deckCard in Model["p2InPlay"])
+            {
+              var card = deckCard.GetCard();
+              <div class="cardDisplay pull-left">
+                <div class="image-border">
+                  <div class="cardImage">
+                    <img src="@card.Image" alt="" />
+                  </div>
+                </div>  
+                <div class="cardHP pull-right">
+                  <p>@deckCard.HP</p>
+                </div>
+                <div class="cardAttack">
+                  <p>@card.Attack</p>
+                </div>
+              </div>
+            }
           </div>
         </div>
       </div>
       <div class="col-sm-6">
+        <h2 class="player-title">Player 2</h2>
         <div class="row">
-            <div class="col-sm-8">
-              <div class="cardDisplay">
-                <div class="cardImage">
-                  <img src="/../Content/img/pineapple.png" alt="" />
+            <div class="col-sm-8 inPlay">
+              @foreach(var deckCard in Model["p2InPlay"])
+              {
+                var card = deckCard.GetCard();
+                <div class="cardDisplay pull-right">
+                  <div class="image-border">
+                    <div class="cardImage">
+                      <img src="@card.Image" alt="" />
+                    </div>
+                  </div>
+                  <div class="cardHP pull-right">
+                    <p>@deckCard.HP</p>
+                  </div>
+                  <div class="cardAttack">
+                    <p>@card.Attack</p>
+                  </div>
                 </div>
-                <div class="cardFlavor">
-                  <p>Bear loves her turtles!</p>
-                </div>
-                <div class="cardHP pull-right">
-                  <p>4</p>
-                </div>
-                <div class="cardAttack">
-                  <p>2</p>
-                </div>
-              </div>
+              }
             </div>
             <div class="col-sm-4 turtles">
-              <h2>Player 2</h2>
-              <img src="/../Content/img/turtle.png" id="p2t1" alt="an image of a turtle"/>
-              <img src="/../Content/img/turtle.png" id="p2t2" alt="an image of a turtle"/>
-              <img src="/../Content/img/turtle.png" id="p2t3" alt="an image of a turtle"/>
-              <img src="/../Content/img/turtle.png" id="p2t4" alt="an image of a turtle"/>
-              <img src="/../Content/img/turtle.png" id="p2t5" alt="an image of a turtle"/>
+              @for(int i=0; i< @Model["player2"].Turtles; i++)
+              {
+                <img src="/../Content/img/turtle.png" alt="an image of a turtle"/>
+              }
+              @if (@Model["player2"].Turtles < 5)
+              {
+                @for(int i=0; i< 5-@Model["player2"].Turtles; i++)
+                {
+                  <img src="/../Content/img/upside-down-turtle.png" alt="an image of a tipped turtle"/>
+                }
+              }
             </div>
         </div>
       </div>
@@ -54,24 +85,26 @@
         @foreach(var deckCard in Model["deck"])
         {
           @if(deckCard.InHand)
-          {var card = deckCard.GetCard();
+          {
+            var card = deckCard.GetCard();
             <div class="col-sm-2">
-            <div class="cardDisplay">
-              <div class="image-border">
-              <div class="cardImage">
-                <img src="@card.Image" alt="" />
+              <div class="cardDisplay">
+                <div class="image-border">
+                  <div class="cardImage">
+                    <img src="@card.Image" alt="" />
+                  </div>
+                </div>
+                <div class="cardFlavor">
+                  <br>
+                  <p>@card.FlavorText</p>
+                </div>
+                <div class="cardHP pull-right">
+                  <p>@card.Defense</p>
+                </div>
+                <div class="cardAttack">
+                  <p>@card.Attack</p>
+                </div>
               </div>
-              </div>
-              <div class="cardFlavor">
-                <p>@card.FlavorText</p>
-              </div>
-              <div class="cardHP pull-right">
-                <p>@card.Defense</p>
-              </div>
-              <div class="cardAttack">
-                <p>@card.Attack</p>
-              </div>
-            </div>
             </div>
           }
         }

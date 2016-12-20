@@ -161,7 +161,6 @@ namespace TurtleTippers.Objects
             for(int i = 0; i < deckSize; i++)
             {
                 int randomCardId = cardIds[rand1.Next(cardIds.Count)];
-                Console.WriteLine(cardIds.Count + " "+ randomCardId);
                 Card selectedCard = Card.Find(randomCardId);
                 Deck newDeck = new Deck(selectedCard.Id, player.Id, selectedCard.Defense);
                 SqlCommand cmd2 = new SqlCommand("INSERT INTO decks (card_id, player_id, in_hand, in_play, discard, HP) VALUES (@CardId, @PlayerId, @InHand, @InPlay, @Discard, @HP);", conn);
