@@ -9,12 +9,16 @@ namespace TurtleTippers.Objects
     {
       public int Id {get; set;}
       public int CurrentPlayerId {get; set;}
+      public int Player1Id {get; set;}
+      public int Player2Id {get; set;}
 
 
-    public Arena(int currentPlayerId=0, int id = 0)
+    public Arena(int arenaPlayer1Id, int arenaPlayer2Id, int currentPlayerId = 0, int id = 0)
     {
       this.Id = id;
       this.CurrentPlayerId = currentPlayerId;
+      this.Player1Id = arenaPlayer1Id;
+      this.Player2Id = arenaPlayer2Id;
     }
 
     public void SetCurrentPlayer()
@@ -22,9 +26,14 @@ namespace TurtleTippers.Objects
       Random rand1 = new Random();
       int flip = rand1.Next(2);
 
-      List<Player> allPlayers = Player.GetAll();
-
-      this.CurrentPlayerId = allPlayers[flip].Id;
+      if(flip == 0)
+      {
+          this.CurrentPlayerId = this.Player1Id;
+      }
+      else
+      {
+          this.CurrentPlayerId = this.Player2Id;
+      }
     }
 
     // Method for when cards fight each other, probably also evaluate if a card dies
