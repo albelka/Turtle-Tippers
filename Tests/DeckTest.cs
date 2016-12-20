@@ -178,7 +178,7 @@ namespace TurtleTippers
             Deck.DrawCard(newPlayer);
             Deck.DrawCard(newPlayer);
 
-            Deck.DiscardCard(newPlayer, Deck.GetPlayerHand(newPlayer)[0].Id);
+            Deck.GetPlayerHand(newPlayer)[0].DiscardCard();
 
             int handResult = Deck.GetPlayerHand(newPlayer).Count;
             int handExpected = 1;
