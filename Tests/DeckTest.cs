@@ -90,6 +90,8 @@ namespace TurtleTippers
             Deck.DrawCard(newPlayer);
             Deck.DrawCard(newPlayer);
             Deck.DrawCard(newPlayer);
+            Deck.DrawCard(newPlayer);
+            Deck.DrawCard(newPlayer);
 
             int result = Deck.GetPlayerHand(newPlayer).Count;
             int expected = 5;

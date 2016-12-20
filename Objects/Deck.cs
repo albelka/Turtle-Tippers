@@ -200,29 +200,29 @@ namespace TurtleTippers.Objects
             }
         }
 
-        public static List<Card> GetPlayerHand(Player player)
+        public static List<Deck> GetPlayerHand(Player player)
         {
             SqlConnection conn = DB.Connection();
             conn.Open();
 
-            SqlCommand cmd = new SqlCommand("SELECT cards.* FROM cards JOIN decks ON (cards.id = decks.card_id) WHERE decks.player_id = @PlayerId AND decks.in_hand = 1;", conn);
+            SqlCommand cmd = new SqlCommand("SELECT * FROM decks WHERE player_id = @PlayerId AND in_hand = 1;", conn);
             cmd.Parameters.AddWithValue("@PlayerId", player.Id);
 
             SqlDataReader rdr = cmd.ExecuteReader();
 
-            List<Card> handCards = new List<Card> {};
+            List<Deck> playerHands = new List<Deck> {};
             while(rdr.Read())
             {
-                int cardId = rdr.GetInt32(0);
-                string cardName = rdr.GetString(1);
-                string cardImage = rdr.GetString(2);
-                string cardFlavor = rdr.GetString(3);
-                int cardAttack = rdr.GetInt32(4);
-                int cardDefense = rdr.GetInt32(5);
-                int cardRevive = rdr.GetInt32(6);
+                int deckId = rdr.GetInt32(0);
+                int deckCardId = rdr.GetInt32(1);
+                int deckPlayerId = rdr.GetInt32(2);
+                bool deckInHand = rdr.GetBoolean(3);
+                bool deckInPlay = rdr.GetBoolean(4);
+                bool deckDiscard = rdr.GetBoolean(5);
+                int deckHP = rdr.GetInt32(6);
 
-                Card newCard = new Card(cardName, cardImage, cardFlavor, cardAttack, cardDefense, cardRevive, cardId);
-                handCards.Add(newCard);
+                Deck newDeck = new Deck(deckCardId, deckPlayerId, deckHP, deckInHand, deckInPlay, deckDiscard, deckId);
+                playerHands.Add(newDeck);
             }
             if(rdr != null)
             {
@@ -232,7 +232,7 @@ namespace TurtleTippers.Objects
             {
                 conn.Close();
             }
-            return handCards;
+            return playerHands;
         }
 
     }
