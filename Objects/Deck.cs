@@ -349,5 +349,47 @@ namespace TurtleTippers.Objects
                 conn.Close();
             }
         }
+
+        public Card GetCard()
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand = new SqlCommand("SELECT * FROM cards WHERE id = @CardId;", conn);
+            cmd.Parameters.AddWithValue("@CardId", this.CardId);
+
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+            int cardId = 0;
+            string cardName = null;
+            string cardImage = null;
+            string cardFlavor = null;
+            int cardAttack = 0;
+            int cardDefense = 0;
+            int cardRevive = 0;
+            int cardTier = 0;
+            while(rdr.Read())
+            {
+                cardId = rdr.GetInt32(0);
+                cardName = rdr.GetString(1);
+                cardImage = rdr.GetString(2);
+                cardFlavor = rdr.GetString(3);
+                cardAttack = rdr.GetInt32(4);
+                cardDefense = rdr.GetInt32(5);
+                cardRevive = rdr.GetInt32(6);
+                cardTier = rdr.GetInt32(7);
+            }
+            Card foundCard = new Card(cardName, cardImage, cardFlavor, cardAttack, cardDefense, cardRevive, cardTier, cardId);
+
+            if(rdr != null)
+            {
+                rdr.Close();
+            }
+            if(conn != null)
+            {
+                conn.Close();
+            }
+            return foundCard;
+        }
     }
 }
