@@ -23,7 +23,7 @@
             <div class="col-sm-8">
               <div class="cardDisplay">
                 <div class="cardImage">
-                  <img src="/../Content/img/bear.png" alt="" />
+                  <img src="/../Content/img/pineapple.png" alt="" />
                 </div>
                 <div class="cardFlavor">
                   <p>Bear loves her turtles!</p>
@@ -53,11 +53,14 @@
       <form action="" method="post">
         @foreach(var deckCard in Model["deck"])
         {
-          @if(deckCard.PlayerId == Model["arena"].CurrentPlayerId && deckCard.InHand)
-          {var card = Card.Find(deckCard.Id);
+          @if(deckCard.InHand)
+          {var card = deckCard.GetCard();
+            <div class="col-sm-2">
             <div class="cardDisplay">
+              <div class="image-border">
               <div class="cardImage">
                 <img src="@card.Image" alt="" />
+              </div>
               </div>
               <div class="cardFlavor">
                 <p>@card.FlavorText</p>
@@ -69,9 +72,10 @@
                 <p>@card.Attack</p>
               </div>
             </div>
+            </div>
           }
         }
-        <div class="col-sm-2" id="hand2">
+        @* <div class="col-sm-2" id="hand2">
           <input id="card2" type="checkbox" name="card1" class="vis-hidden" value="Aliens" />
           <label for="card2"><img src="/../Content/img/bear_card.png" alt="bear card" /></label>
         </div>
@@ -87,7 +91,7 @@
           <input id="card5" type="checkbox" name="card1" class="vis-hidden" value="Aliens" />
           <label for="card5"><img src="/../Content/img/bear_card.png" alt="bear card" /></label>
         </div>
-        <button type="submit" class="btn btn-success">SUBMIT</button>
+        <button type="submit" class="btn btn-success">SUBMIT</button> *@
       </form>
 
     </div>

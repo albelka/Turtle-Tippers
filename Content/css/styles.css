@@ -1,9 +1,9 @@
 .turtles img {
   height: 100px;
 }
-#hand img {
+/*#hand img {
   height: 240px;
-}
+}*/
 .vis-hidden {
     border: 0;
     clip: rect(0 0 0 0);
@@ -14,7 +14,9 @@
     position: absolute;
     width: 1px;
 }
-
+#hand {
+  display: inline-flex;
+}
 /*label {
   border: 3px solid black;
 }*/
@@ -40,7 +42,16 @@ input:checked + label {
 .cardImage img {
   display: block;
   margin: 0 auto;
-  height: 150px;
+  max-height: 100%;
+  max-width: 100%;
+}
+.image-border {
+  height: 180px;
+  width: 170px;
+  margin: -15px;
+  overflow: hidden;
+}
+.cardImage {
 }
 .cardFlavor {
   font-size: 12px;
