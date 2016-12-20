@@ -96,7 +96,7 @@ namespace TurtleTippers.Objects
             return wholeDecks;
         }
 
-        public static void BuildPlayerDeck(int playerId, int deckSize = 30)
+        public static void BuildPlayerDeck(Player player, int deckSize = 30)
         {
             SqlConnection conn = DB.Connection();
             conn.Open();
@@ -121,7 +121,8 @@ namespace TurtleTippers.Objects
             for(int i = 0; i < deckSize; i++)
             {
                 int randomCardId = cardIds[rand1.Next(cardIds.Count-1)];
-                Deck newDeck = new Deck(randomCardId, playerId);
+                Card selectedCard = Card.Find(randomCardId);
+                Deck newDeck = new Deck(selectedCard.Id, player.Id, selectedCard.Defense);
                 SqlCommand cmd2 = new SqlCommand("INSERT INTO decks (card_id, player_id, in_hand, in_play, discard, HP) VALUES (@CardId, @PlayerId, @InHand, @InPlay, @Discard, @HP);", conn);
 
                 cmd2.Parameters.AddWithValue("@CardId", newDeck.CardId);
@@ -139,5 +140,98 @@ namespace TurtleTippers.Objects
                 conn.Close();
             }
         }
+
+        public static List<Deck> GetPlayerDeck(Player player)
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("SELECT * FROM decks WHERE player_id = @PlayerId AND in_hand <> true AND in_play <> true AND discard <> true;", conn);
+
+            cmd.Parameters.AddWithValue("@PlayerId", player.Id);
+
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+            List<Deck> playerDecks = new List<Deck> {};
+            while(rdr.Read())
+            {
+                int deckId = rdr.GetInt32(0);
+                int deckCardId = rdr.GetInt32(1);
+                int deckPlayerId = rdr.GetInt32(2);
+                bool deckInHand = rdr.GetBoolean(3);
+                bool deckInPlay = rdr.GetBoolean(4);
+                bool deckDiscard = rdr.GetBoolean(5);
+                int deckHP = rdr.GetInt32(6);
+
+                Deck newDeck = new Deck(deckCardId, deckPlayerId, deckHP, deckInHand, deckInPlay, deckDiscard, deckId);
+                playerDecks.Add(newDeck);
+            }
+            if(rdr != null)
+            {
+                rdr.Close();
+            }
+            if(conn != null)
+            {
+                conn.Close();
+            }
+            return playerDecks;
+        }
+
+        public static void DrawCard(Player player)
+        {
+            if(Deck.GetPlayerHand(player).Count < 5)
+            {
+                SqlConnection conn = DB.Connection();
+                conn.Open();
+
+                List<Deck> playerDeck = Deck.GetPlayerDeck(player);
+                Deck nextDeckCard = playerDeck[0];
+                SqlCommand cmd = new SqlCommand("UPDATE decks in_hand = true WHERE id = @DeckId AND player_id = @PlayerId;", conn);
+
+                cmd.Parameters.AddWithValue("@DeckId", nextDeckCard.Id);
+                cmd.Parameters.AddWithValue("@PlayerId", player.Id);
+
+                cmd.ExecuteNonQuery();
+
+                if(conn != null)
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public static List<Card> GetPlayerHand(Player player)
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("SELECT cards.* FROM cards JOIN decks ON (cards.id = decks.card_id) WHERE cards.player_id = @PlayerId AND deck.in_hand = true;", conn);
+            cmd.Parameters.AddWithValue("@PlayerId", player.Id);
+
+            List<Card> handCards = new List<Card> {};
+            while(rdr.Read())
+            {
+                int cardId = rdr.GetInt32(0);
+                string cardName = rdr.GetString(1);
+                string cardImage = rdr.GetString(2);
+                string cardFlavor = rdr.GetString(3);
+                int cardAttack = rdr.GetInt32(4);
+                int cardDefense = rdr.GetInt32(5);
+                int cardRevive = rdr.GetInt32(6);
+
+                Card newCard = new Card(cardName, cardImage, cardFlavor, cardAttack, cardDefense, cardRevive, cardId);
+                handCards.Add(newCard);
+            }
+            if(rdr != null)
+            {
+                rdr.Close();
+            }
+            if(conn != null)
+            {
+                conn.Close();
+            }
+            return handCards;
+        }
+
     }
 }
