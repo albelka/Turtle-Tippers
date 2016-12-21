@@ -20,9 +20,16 @@
             }
           </div>
           <div class="col-sm-8 inPlay" >
+            <form action="/combat" method="post">
+
             @foreach(var deckCard in Model["p1InPlay"])
             {
               var card = deckCard.GetCard();
+              <label>
+              @if(Model["turnPhase"] == "combat")
+              {
+                <input type="radio" name="p1-combat-card" value="@deckCard.Id" class="combatCard">
+              }
               <div class="cardDisplay pull-left">
                 <div class="image-border">
                   <div class="cardImage">
@@ -36,6 +43,7 @@
                   <p>@card.Attack</p>
                 </div>
               </div>
+              </label>
             }
           </div>
         </div>
@@ -47,6 +55,11 @@
               @foreach(var deckCard in Model["p2InPlay"])
               {
                 var card = deckCard.GetCard();
+                <label>
+                @if(Model["turnPhase"] == "combat")
+                {
+                  <input type="radio" name="p2-combat-card" value="@deckCard.Id" class="combatCard">
+                }
                 <div class="cardDisplay pull-right">
                   <div class="image-border">
                     <div class="cardImage">
@@ -60,6 +73,7 @@
                     <p>@card.Attack</p>
                   </div>
                 </div>
+                </label>
               }
             </div>
             <div class="col-sm-4 turtles">
@@ -79,41 +93,24 @@
       </div>
     </div>
     <br>
-    <br>
-    <div class="row" id="hand">
-      <form action="/playCard" method="post">
-        @foreach(var deckCard in Model["deck"])
+    <div class="row">
+      <div class="col-sm-12">
+        @if(Model["turnPhase"] == "combat" && Model["p2InPlay"].Count > 0 && Model["p1InPlay"].Count > 0)
         {
-          @if(deckCard.InHand)
-          {
-            var card = deckCard.GetCard();
-            <div class="col-sm-2">
-              <input id="@deckCard.Id" type="checkbox" name="handCard" class="vis-hidden" value="@deckCard.Id" />
-              <label for="@deckCard.Id">
-                <div class="cardDisplay">
-                  <div class="image-border">
-                    <div class="cardImage">
-                      <img src="@card.Image" alt="" />
-                    </div>
-                  </div>
-                  <div class="cardFlavor">
-                    <br>
-                    <p>@card.FlavorText</p>
-                  </div>
-                  <div class="cardHP pull-right">
-                    <p>@card.Defense</p>
-                  </div>
-                  <div class="cardAttack">
-                    <p>@card.Attack</p>
-                  </div>
-                </div>
-              </label>
-            </div>
-          }
+          <button type="submit" class="btn btn-danger">Fight!</button>
         }
-        <div class="col-sm-2">
-        <button type="submit" class="btn btn-success pull-right">Play Card</button>
-        <br>
+        @if(Model["turnPhase"] == "combat" && Model["currentInPlay"].Count < 1)
+        {
+          <form action="/combat" method="get">
+            <button type="submit" class="btn btn-warning">Skip combat</button>
+          </form>
+        }
+        @if(Model["turnPhase"] == "combat" && Model["currentInPlay"].Count > 0 && Model["otherInPlay"].Count <1)
+        {
+          <form action="/turtle" method="get">
+            <button type="submit" class="btn btn-warning">Tip Turtles!</button>
+          </form>
+        }
         @if(Model["currentPlayerId"] == @Model["player1"].Id)
         {
           <div>
@@ -127,7 +124,49 @@
           </div>
         }
       </div>
-      </form>
+    </form>
+    </div>
+    <br>
+    <div class="row" id="hand">
+      @if(Model["turnPhase"] == "play")
+      {
+        <form action="/playCard" method="post">
+        @foreach(var deckCard in Model["deck"])
+        {
+          @if(deckCard.InHand)
+          {
+            var card = deckCard.GetCard();
+            <div class="col-sm-2">
+            <input id="@deckCard.Id" type="checkbox" name="handCard" class="vis-hidden" value="@deckCard.Id" />
+            <label for="@deckCard.Id">
+            <div class="cardDisplay">
+            <div class="image-border">
+            <div class="cardImage">
+            <img src="@card.Image" alt="" />
+            </div>
+            </div>
+            <div class="cardFlavor">
+            <br>
+            <p>@card.FlavorText</p>
+            </div>
+            <div class="cardHP pull-right">
+            <p>@card.Defense</p>
+            </div>
+            <div class="cardAttack">
+            <p>@card.Attack</p>
+            </div>
+            </div>
+            </label>
+            </div>
+          }
+        }
+        <div class="col-sm-2">
+        <button type="submit" class="btn btn-success pull-right">Play Card</button>
+        <br>
+
+        </div>
+        </form>        
+      }
 
     </div>
   </div>

@@ -19,6 +19,7 @@ namespace TurtleTippers
             Arena newArena = new Arena(player1.Id, player2.Id);
             Arena.SetCurrentPlayer();
             Player currentPlayer = Player.Find(Arena.CurrentPlayerId);
+            Player otherPlayer = Player.Find(Arena.OtherPlayerId);
             Deck.BuildPlayerDeck(player1);
             Deck.BuildPlayerDeck(player2);
             for(int i = 0; i<5; i++)
@@ -28,37 +29,69 @@ namespace TurtleTippers
             }
 
             Dictionary<string, object> model = new Dictionary<string, object>();
+            model.Add("turnPhase", Arena.TurnPhase);
             model.Add("player1", player1);
             model.Add("player2", player2);
             model.Add("currentPlayerId", Arena.CurrentPlayerId);
             model.Add("deck", Deck.GetPlayerHand(currentPlayer));
             model.Add("p1InPlay", Deck.GetCardsInPlay(player1));
             model.Add("p2InPlay", Deck.GetCardsInPlay(player2));
+            model.Add("currentInPlay", Deck.GetCardsInPlay(currentPlayer));
+            model.Add("otherInPlay", Deck.GetCardsInPlay(otherPlayer));
             return View["index.cshtml", model];
           };
 
           Post["/playCard"] = _ => {
-            string[] splitInput = Request.Form["handCard"].ToString().Split(',');
-            foreach(string input in splitInput)
+            Arena.PartialTurnCount += 1;
+            Arena.TurnStarter();
+            if(Request.Form["handCard"].ToString() != "Nancy.DynamicDictionaryValue" )
             {
-              Deck selectedDeck = Deck.Find(int.Parse(input));
-              selectedDeck.PlayCard();
+              string[] splitInput = Request.Form["handCard"].ToString().Split(',');
+              foreach(string input in splitInput)
+              {
+                Deck selectedDeck = Deck.Find(int.Parse(input));
+                selectedDeck.PlayCard();
+                Deck.DrawCard(Player.Find(selectedDeck.PlayerId));
+              }
             }
             Player player1 = Player.Find(Arena.Player1Id);
             Player player2 = Player.Find(Arena.Player2Id);
-            Arena.SwitchTurn();
             Player currentPlayer = Player.Find(Arena.CurrentPlayerId);
+            Player otherPlayer = Player.Find(Arena.OtherPlayerId);
             Dictionary<string, object> model = new Dictionary<string, object>();
+            model.Add("turnPhase", Arena.TurnPhase);
             model.Add("player1", player1);
             model.Add("player2", player2);
             model.Add("currentPlayerId", Arena.CurrentPlayerId);
             model.Add("deck", Deck.GetPlayerHand(currentPlayer));
             model.Add("p1InPlay", Deck.GetCardsInPlay(player1));
             model.Add("p2InPlay", Deck.GetCardsInPlay(player2));
+            model.Add("currentInPlay", Deck.GetCardsInPlay(currentPlayer));
+            model.Add("otherInPlay", Deck.GetCardsInPlay(otherPlayer));
 
             return View["index.cshtml", model];
           };
 
+          Post["/combat"] = _ => {
+            Arena.PartialTurnCount += 1;
+            Arena.TurnStarter();
+            Arena.CompareCards(Deck.Find(int.Parse(Request.Form["p1-combat-card"])), Deck.Find(int.Parse(Request.Form["p2-combat-card"])));
+            Player player1 = Player.Find(Arena.Player1Id);
+            Player player2 = Player.Find(Arena.Player2Id);
+            Player currentPlayer = Player.Find(Arena.CurrentPlayerId);
+            Player otherPlayer = Player.Find(Arena.OtherPlayerId);
+            Dictionary<string, object> model = new Dictionary<string, object>();
+            model.Add("turnPhase", Arena.TurnPhase);
+            model.Add("player1", player1);
+            model.Add("player2", player2);
+            model.Add("currentPlayerId", Arena.CurrentPlayerId);
+            model.Add("deck", Deck.GetPlayerHand(currentPlayer));
+            model.Add("p1InPlay", Deck.GetCardsInPlay(player1));
+            model.Add("p2InPlay", Deck.GetCardsInPlay(player2));
+            model.Add("currentInPlay", Deck.GetCardsInPlay(currentPlayer));
+            model.Add("otherInPlay", Deck.GetCardsInPlay(otherPlayer));
+            return View["index.cshtml", model];
+          };
         }
     }
 }
