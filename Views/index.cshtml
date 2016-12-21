@@ -28,7 +28,7 @@
                   <div class="cardImage">
                     <img src="@card.Image" alt="" />
                   </div>
-                </div>  
+                </div>
                 <div class="cardHP pull-right">
                   <p>@deckCard.HP</p>
                 </div>
@@ -88,43 +88,30 @@
           {
             var card = deckCard.GetCard();
             <div class="col-sm-2">
-              <div class="cardDisplay">
-                <div class="image-border">
-                  <div class="cardImage">
-                    <img src="@card.Image" alt="" />
+              <input id="@card.Id" type="checkbox" name="handCard" class="vis-hidden" value="@deckCard.Id" />
+              <label for="@card.Id">
+                <div class="cardDisplay">
+                  <div class="image-border">
+                    <div class="cardImage">
+                      <img src="@card.Image" alt="" />
+                    </div>
+                  </div>
+                  <div class="cardFlavor">
+                    <br>
+                    <p>@card.FlavorText</p>
+                  </div>
+                  <div class="cardHP pull-right">
+                    <p>@card.Defense</p>
+                  </div>
+                  <div class="cardAttack">
+                    <p>@card.Attack</p>
                   </div>
                 </div>
-                <div class="cardFlavor">
-                  <br>
-                  <p>@card.FlavorText</p>
-                </div>
-                <div class="cardHP pull-right">
-                  <p>@card.Defense</p>
-                </div>
-                <div class="cardAttack">
-                  <p>@card.Attack</p>
-                </div>
-              </div>
+              </label>
             </div>
           }
         }
-        @* <div class="col-sm-2" id="hand2">
-          <input id="card2" type="checkbox" name="card1" class="vis-hidden" value="Aliens" />
-          <label for="card2"><img src="/../Content/img/bear_card.png" alt="bear card" /></label>
-        </div>
-        <div class="col-sm-2" id="hand3">
-          <input id="card3" type="checkbox" name="card1" class="vis-hidden" value="Aliens" />
-          <label for="card3"><img src="/../Content/img/bear_card.png" alt="bear card" /></label>
-        </div>
-        <div class="col-sm-2" id="hand4">
-          <input id="card4" type="checkbox" name="card1" class="vis-hidden" value="Aliens" />
-          <label for="card4"><img src="/../Content/img/bear_card.png" alt="bear card" /></label>
-        </div>
-        <div class="col-sm-2" id="hand5">
-          <input id="card5" type="checkbox" name="card1" class="vis-hidden" value="Aliens" />
-          <label for="card5"><img src="/../Content/img/bear_card.png" alt="bear card" /></label>
-        </div>
-        <button type="submit" class="btn btn-success">SUBMIT</button> *@
+        <button type="submit" class="btn btn-success">Play Card</button>
       </form>
 
     </div>
