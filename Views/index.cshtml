@@ -95,21 +95,25 @@
     <br>
     <div class="row">
       <div class="col-sm-12">
+        @if(Model["turnPhase"] == "over1")
+        {
+          <h1>Game over! @Model["player1"].Name wins!</h1>
+        }
+        @if(Model["turnPhase"] == "over2")
+        {
+          <h1>Game over! @Model["player2"].Name wins!</h1>
+        }
         @if(Model["turnPhase"] == "combat" && Model["p2InPlay"].Count > 0 && Model["p1InPlay"].Count > 0)
         {
           <button type="submit" class="btn btn-danger">Fight!</button>
         }
         @if(Model["turnPhase"] == "combat" && Model["currentInPlay"].Count < 1)
         {
-          <form action="/combat" method="get">
-            <button type="submit" class="btn btn-warning">Skip combat</button>
-          </form>
+          <a href="/combat" class="btn btn-warning">Skip combat</a>
         }
-        @if(Model["turnPhase"] == "combat" && Model["currentInPlay"].Count > 0 && Model["otherInPlay"].Count <1)
+        @if(Model["turnPhase"] == "combat" && Model["currentInPlay"].Count > 0 && Model["otherInPlay"].Count < 1)
         {
-          <form action="/turtle" method="get">
-            <button type="submit" class="btn btn-warning">Tip Turtles!</button>
-          </form>
+          <a href="/turtle" class="btn btn-warning">Tip Turtles!</a>
         }
         @if(Model["currentPlayerId"] == @Model["player1"].Id)
         {

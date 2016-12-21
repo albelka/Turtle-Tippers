@@ -143,6 +143,10 @@ namespace TurtleTippers.Objects
         public void TurtleFlip()
         {
             this.Turtles -= 1;
+            if(this.Turtles < 0)
+            {
+              this.Turtles = 0;
+            }
 
             SqlConnection conn = DB.Connection();
             conn.Open();

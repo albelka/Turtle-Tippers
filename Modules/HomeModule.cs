@@ -112,6 +112,32 @@ namespace TurtleTippers
             model.Add("otherInPlay", Deck.GetCardsInPlay(otherPlayer));
             return View["index.cshtml", model];
           };
+          Get["/turtle"] = _ => {
+            Player currentPlayer = Player.Find(Arena.CurrentPlayerId);
+            Player otherPlayer = Player.Find(Arena.OtherPlayerId);
+            int cardsInPlay = Deck.GetCardsInPlay(currentPlayer).Count;
+            for(int i=0; i<cardsInPlay; i++)
+            {
+              otherPlayer.TurtleFlip();
+            }
+            Arena.PartialTurnCount += 1;
+            Arena.TurnStarter();
+            Player player1 = Player.Find(Arena.Player1Id);
+            Player player2 = Player.Find(Arena.Player2Id);
+            currentPlayer = Player.Find(Arena.CurrentPlayerId);
+            otherPlayer = Player.Find(Arena.OtherPlayerId);
+            Dictionary<string, object> model = new Dictionary<string, object>();
+            model.Add("turnPhase", Arena.TurnPhase);
+            model.Add("player1", player1);
+            model.Add("player2", player2);
+            model.Add("currentPlayerId", Arena.CurrentPlayerId);
+            model.Add("currentPlayerHand", Deck.GetPlayerHand(currentPlayer));
+            model.Add("p1InPlay", Deck.GetCardsInPlay(player1));
+            model.Add("p2InPlay", Deck.GetCardsInPlay(player2));
+            model.Add("currentInPlay", Deck.GetCardsInPlay(currentPlayer));
+            model.Add("otherInPlay", Deck.GetCardsInPlay(otherPlayer));
+            return View["index.cshtml", model];
+          };
         }
     }
 }

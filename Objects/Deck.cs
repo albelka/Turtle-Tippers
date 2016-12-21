@@ -219,7 +219,7 @@ namespace TurtleTippers.Objects
 
         public static void DrawCard(Player player)
         {
-            if(Deck.GetPlayerHand(player).Count < 5)
+            if(Deck.GetPlayerHand(player).Count < 5 && Deck.GetPlayerDeck(player).Count > 0)
             {
                 SqlConnection conn = DB.Connection();
                 conn.Open();
