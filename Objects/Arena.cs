@@ -9,6 +9,7 @@ namespace TurtleTippers.Objects
     {
       public int Id {get; set;}
       public static int CurrentPlayerId {get; set;}
+      public static int OtherPlayerId {get; set;}
       public static int Player1Id {get; set;}
       public static int Player2Id {get; set;}
       public static int AttackingDeckId {get; set;}
@@ -21,6 +22,7 @@ namespace TurtleTippers.Objects
     {
       this.Id = id;
       CurrentPlayerId = currentPlayerId;
+      OtherPlayerId = 0;
       Player1Id = arenaPlayer1Id;
       Player2Id = arenaPlayer2Id;
       AttackingDeckId = attackingDeckId;
@@ -37,10 +39,12 @@ namespace TurtleTippers.Objects
       if(flip == 0)
       {
           CurrentPlayerId = Player1Id;
+          OtherPlayerId = Player2Id;
       }
       else
       {
           CurrentPlayerId = Player2Id;
+          OtherPlayerId = Player1Id;
       }
     }
 
@@ -68,10 +72,12 @@ namespace TurtleTippers.Objects
         if(CurrentPlayerId == Player1Id)
         {
             CurrentPlayerId = Player2Id;
+            OtherPlayerId = Player1Id;
         }
         else
         {
             CurrentPlayerId = Player1Id;
+            OtherPlayerId = Player2Id;
         }
     }
 
@@ -91,12 +97,12 @@ namespace TurtleTippers.Objects
     {
         SwitchCurrentPlayer();
 
-        if(PartialTurnCount % 2)
+        if(PartialTurnCount % 2 == 0)
         {
             SwitchPhase();
         }
 
-        if(PartialTurnCount % 4)
+        if(PartialTurnCount % 4 == 0)
         {
             WholeTurnCount += 1;
             SwitchCurrentPlayer();
