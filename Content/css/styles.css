@@ -1,13 +1,28 @@
 h1 {
   text-align: center;
+  font-weight: bolder;
+  font-family: cursive;
+  color: ivory;
 }
 
 .turtles img {
   height: 100px;
 }
-/*#hand img {
-  height: 240px;
-}*/
+.player-title{
+    color: black;
+    font-family: cursive;
+}
+body {
+    background-image: url("/../Content/img/forest3.jpg");
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.background {
+    background-color: ivory;
+    border-radius: 25px;
+}
 .vis-hidden {
     border: 0;
     clip: rect(0 0 0 0);
@@ -23,7 +38,8 @@ h1 {
 }
 
 input:checked + label {
-  box-shadow: -10px 8px 5px red;
+  box-shadow: -8px 8px 5px red;
+  border-radius: 10px;
 }
 
 .cardDisplay {
@@ -32,7 +48,8 @@ input:checked + label {
   height: 265px;
   width: 180px;
   padding: 15px;
-  margin: 0px 5px;
+  margin: 0px 0px;
+  background: url("/../Content/img/card-background.png"), rgba(253, 246, 232, 0.8);
 }
 .cardImage img {
   display: block;
