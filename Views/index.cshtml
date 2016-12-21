@@ -111,7 +111,22 @@
             </div>
           }
         }
+        <div class="col-sm-2">
         <button type="submit" class="btn btn-success pull-right">Play Card</button>
+        <br>
+        @if(Model["arena"].CurrentPlayerId == @Model["player1"].Id)
+        {
+          <div>
+          <h3>@Model["player1"].Name</h3>
+          </div>
+        }
+        else
+        {
+          <div>
+          <h3>@Model["player2"].Name</h3>
+          </div>
+        }
+      </div>
       </form>
 
     </div>
