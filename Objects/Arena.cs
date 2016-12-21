@@ -13,6 +13,8 @@ namespace TurtleTippers.Objects
       public static int Player2Id {get; set;}
       public static int AttackingDeckId {get; set;}
       public static string TurnPhase {get; set;}
+      public static int PartialTurnCount {get; set;}
+      public static int WholeTurnCount {get; set;}
 
 
     public Arena(int arenaPlayer1Id, int arenaPlayer2Id, int currentPlayerId = 0, int attackingDeckId = 0, int id = 0)
@@ -23,6 +25,8 @@ namespace TurtleTippers.Objects
       Player2Id = arenaPlayer2Id;
       AttackingDeckId = attackingDeckId;
       TurnPhase = "play";
+      PartialTurnCount = 0;
+      WholeTurnCount = 0;
     }
 
     public static void SetCurrentPlayer()
@@ -59,7 +63,7 @@ namespace TurtleTippers.Objects
         }
     }
 
-    public static void SwitchTurn()
+    public static void SwitchCurrentPlayer()
     {
         if(CurrentPlayerId == Player1Id)
         {
@@ -80,6 +84,22 @@ namespace TurtleTippers.Objects
         else if(TurnPhase == "combat")
         {
             TurnPhase = "play";
+        }
+    }
+
+    public static void TurnStarter()
+    {
+        SwitchCurrentPlayer();
+
+        if(PartialTurnCount % 2)
+        {
+            SwitchPhase();
+        }
+
+        if(PartialTurnCount % 4)
+        {
+            WholeTurnCount += 1;
+            SwitchCurrentPlayer();
         }
     }
   }
