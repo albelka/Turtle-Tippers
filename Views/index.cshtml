@@ -28,7 +28,7 @@
               <label>
               @if(Model["turnPhase"] == "combat")
               {
-                <input type="radio" name="p1-combat-card" value="@deckCard.Id" class="combatCard">
+                <input type="radio" name="p1-combat-card" value="@deckCard.Id" class="combatCard" required>
               }
               <div class="cardDisplay pull-left">
                 <div class="image-border">
@@ -58,7 +58,7 @@
                 <label>
                 @if(Model["turnPhase"] == "combat")
                 {
-                  <input type="radio" name="p2-combat-card" value="@deckCard.Id" class="combatCard">
+                  <input type="radio" name="p2-combat-card" value="@deckCard.Id" class="combatCard" required>
                 }
                 <div class="cardDisplay pull-right">
                   <div class="image-border">
@@ -131,33 +131,31 @@
       @if(Model["turnPhase"] == "play")
       {
         <form action="/playCard" method="post">
-        @foreach(var deckCard in Model["deck"])
+        @foreach(var deckCard in Model["currentPlayerHand"])
         {
-          @if(deckCard.InHand)
-          {
-            var card = deckCard.GetCard();
-            <div class="col-sm-2">
+          var card = deckCard.GetCard();
+          <div class="col-sm-2">
             <input id="@deckCard.Id" type="checkbox" name="handCard" class="vis-hidden" value="@deckCard.Id" />
             <label for="@deckCard.Id">
-            <div class="cardDisplay">
-            <div class="image-border">
-            <div class="cardImage">
-            <img src="@card.Image" alt="" />
-            </div>
-            </div>
-            <div class="cardFlavor">
-            <br>
-            <p>@card.FlavorText</p>
-            </div>
-            <div class="cardHP pull-right">
-            <p>@card.Defense</p>
-            </div>
-            <div class="cardAttack">
-            <p>@card.Attack</p>
-            </div>
-            </div>
+              <div class="cardDisplay">
+                <div class="image-border">
+                  <div class="cardImage">
+                    <img src="@card.Image" alt="" />
+                  </div>
+                </div>
+                <div class="cardFlavor">
+                  <br>
+                  <p>@card.FlavorText</p>
+                </div>
+                <div class="cardHP pull-right">
+                  <p>@card.Defense</p>
+                </div>
+                <div class="cardAttack">
+                  <p>@card.Attack</p>
+                </div>
+              </div>
             </label>
-            </div>
+          </div>
           }
         }
         <div class="col-sm-2">
@@ -165,7 +163,7 @@
         <br>
 
         </div>
-        </form>        
+        </form>
       }
 
     </div>

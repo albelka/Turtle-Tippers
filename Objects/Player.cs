@@ -9,6 +9,7 @@ namespace TurtleTippers.Objects
     {
         public int Id { get; set; }
         public int Turtles { get; set; }
+        public int MaxTurtles {get; set;}
         public string Name { get; set; }
 
         public Player(int PlayerTurtles, string PlayerName, int PlayerId = 0)
@@ -16,6 +17,7 @@ namespace TurtleTippers.Objects
             this.Id = PlayerId;
             this.Turtles = PlayerTurtles;
             this.Name = PlayerName;
+            this.MaxTurtles = 5;
         }
 
         public override bool Equals(System.Object otherPlayer)
@@ -157,9 +159,13 @@ namespace TurtleTippers.Objects
             }
         }
 
-        public void TurtleUnflip()
+        public void TurtleUnflip(int revives)
         {
-            this.Turtles += 1;
+            this.Turtles += revives;
+            if(this.Turtles > this.MaxTurtles)
+            {
+              this.Turtles = this.MaxTurtles;
+            }
 
             SqlConnection conn = DB.Connection();
             conn.Open();
