@@ -17,8 +17,8 @@ namespace TurtleTippers
             Player player2 = new Player(5, "player2");
             player2.Save();
             Arena newArena = new Arena(player1.Id, player2.Id);
-            newArena.SetCurrentPlayer();
-            Player currentPlayer = Player.Find(newArena.CurrentPlayerId);
+            Arena.SetCurrentPlayer();
+            Player currentPlayer = Player.Find(Arena.CurrentPlayerId);
             Deck.BuildPlayerDeck(player1);
             Deck.BuildPlayerDeck(player2);
             for(int i = 0; i<5; i++)
@@ -30,7 +30,7 @@ namespace TurtleTippers
             Dictionary<string, object> model = new Dictionary<string, object>();
             model.Add("player1", player1);
             model.Add("player2", player2);
-            model.Add("arena", newArena);
+            model.Add("currentPlayerId", Arena.CurrentPlayerId);
             model.Add("deck", Deck.GetPlayerHand(currentPlayer));
             model.Add("p1InPlay", Deck.GetCardsInPlay(player1));
             model.Add("p2InPlay", Deck.GetCardsInPlay(player2));
@@ -44,16 +44,15 @@ namespace TurtleTippers
               Deck selectedDeck = Deck.Find(int.Parse(input));
               selectedDeck.PlayCard();
             }
-            List<Player> players = Player.GetAll();
-            Player player1 = players[0];
-            Player player2 = players[1];
-            Arena newArena = new Arena(player1.Id, player2.Id);
-            // Arena.SwitchPlayer();
+            Player player1 = Player.Find(Arena.Player1Id);
+            Player player2 = Player.Find(Arena.Player2Id);
+            Arena.SwitchTurn();
+            Player currentPlayer = Player.Find(Arena.CurrentPlayerId);
             Dictionary<string, object> model = new Dictionary<string, object>();
             model.Add("player1", player1);
             model.Add("player2", player2);
-            model.Add("arena", newArena);
-            model.Add("deck", Deck.GetPlayerHand(player1));
+            model.Add("currentPlayerId", Arena.CurrentPlayerId);
+            model.Add("deck", Deck.GetPlayerHand(currentPlayer));
             model.Add("p1InPlay", Deck.GetCardsInPlay(player1));
             model.Add("p2InPlay", Deck.GetCardsInPlay(player2));
 
