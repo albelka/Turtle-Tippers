@@ -219,7 +219,7 @@ namespace TurtleTippers.Objects
 
         public static void DrawCard(Player player)
         {
-            if(Deck.GetPlayerHand(player).Count < 5)
+            if(Deck.GetPlayerHand(player).Count < 5 && Deck.GetPlayerDeck(player).Count > 0)
             {
                 SqlConnection conn = DB.Connection();
                 conn.Open();
@@ -280,11 +280,25 @@ namespace TurtleTippers.Objects
             SqlConnection conn = DB.Connection();
             conn.Open();
 
-            if(this.InHand == true)
+            Player selectedPlayer = Player.Find(this.PlayerId);
+            if(this.InHand == true && (this.GetCard().Attack > 0 || this.GetCard().Defense > 0))
             {
-                SqlCommand cmd = new SqlCommand("UPDATE decks SET in_hand = 0, in_play = 1 WHERE id = @DeckId;", conn);
-                cmd.Parameters.AddWithValue("@DeckId", this.Id);
-                cmd.ExecuteNonQuery();
+                if(selectedPlayer.Turtles < selectedPlayer.MaxTurtles && this.CardId == 4)
+                {
+                    this.DiscardCard();
+                    selectedPlayer.TurtleUnflip(this.GetCard().Revive);
+                }
+                else
+                {
+                    SqlCommand cmd = new SqlCommand("UPDATE decks SET in_hand = 0, in_play = 1 WHERE id = @DeckId;", conn);
+                    cmd.Parameters.AddWithValue("@DeckId", this.Id);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            else if(this.InHand == true)
+            {
+                this.DiscardCard();
+                selectedPlayer.TurtleUnflip(this.GetCard().Revive);
             }
             else
             {
@@ -454,7 +468,7 @@ namespace TurtleTippers.Objects
             SqlConnection conn = DB.Connection();
             conn.Open();
 
-            SqlCommand cmd = new SqlCommand("SELECT decks.* FROM decks JOIN cards ON (decks.card_id = cards.id) WHERE decks.player_id = @PlayerId AND cards.Revive = 1;", conn);
+            SqlCommand cmd = new SqlCommand("SELECT decks.* FROM decks JOIN cards ON (decks.card_id = cards.id) WHERE decks.player_id = @PlayerId AND cards.Revive > 0;", conn);
             cmd.Parameters.AddWithValue("@PlayerId", player.Id);
 
             SqlDataReader rdr = cmd.ExecuteReader();

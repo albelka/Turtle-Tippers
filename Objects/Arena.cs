@@ -95,17 +95,31 @@ namespace TurtleTippers.Objects
 
     public static void TurnStarter()
     {
-        SwitchCurrentPlayer();
+        Player player1 = Player.Find(Player1Id);
+        Player player2 = Player.Find(Player2Id);
 
-        if(PartialTurnCount % 2 == 0)
+        if(player1.Turtles <= 0 || Deck.GetPlayerDeck(player1).Count + Deck.GetPlayerHand(player1).Count <= 0)
         {
-            SwitchPhase();
+            TurnPhase = "over2";
         }
-
-        if(PartialTurnCount % 4 == 0)
+        else if (Deck.GetPlayerDeck(player2).Count + Deck.GetPlayerHand(player2).Count <= 0 || player2.Turtles <= 0)
         {
-            WholeTurnCount += 1;
+          TurnPhase = "over1";
+        }
+        else
+        {
             SwitchCurrentPlayer();
+
+            if(PartialTurnCount % 2 == 0)
+            {
+              SwitchPhase();
+            }
+
+            if(PartialTurnCount % 4 == 0)
+            {
+              WholeTurnCount += 1;
+              SwitchCurrentPlayer();
+            }
         }
     }
   }
