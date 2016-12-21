@@ -20,7 +20,7 @@
             }
           </div>
           <div class="col-sm-8 inPlay" >
-            @foreach(var deckCard in Model["p2InPlay"])
+            @foreach(var deckCard in Model["p1InPlay"])
             {
               var card = deckCard.GetCard();
               <div class="cardDisplay pull-left">
@@ -81,15 +81,15 @@
     <br>
     <br>
     <div class="row" id="hand">
-      <form action="" method="post">
+      <form action="/playCard" method="post">
         @foreach(var deckCard in Model["deck"])
         {
           @if(deckCard.InHand)
           {
             var card = deckCard.GetCard();
             <div class="col-sm-2">
-              <input id="@card.Id" type="checkbox" name="handCard" class="vis-hidden" value="@deckCard.Id" />
-              <label for="@card.Id">
+              <input id="@deckCard.Id" type="checkbox" name="handCard" class="vis-hidden" value="@deckCard.Id" />
+              <label for="@deckCard.Id">
                 <div class="cardDisplay">
                   <div class="image-border">
                     <div class="cardImage">
@@ -111,7 +111,7 @@
             </div>
           }
         }
-        <button type="submit" class="btn btn-success">Play Card</button>
+        <button type="submit" class="btn btn-success pull-right">Play Card</button>
       </form>
 
     </div>
