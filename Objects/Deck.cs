@@ -320,7 +320,7 @@ namespace TurtleTippers.Objects
                     this.DiscardCard();
                     selectedPlayer.TurtleUnflip(this.GetCard().Revive);
                 }
-                else
+                else if(GetCardsInPlay(selectedPlayer).Count < 6)
                 {
                     SqlCommand cmd = new SqlCommand("UPDATE decks SET in_hand = 0, in_play = 1 WHERE id = @DeckId;", conn);
                     cmd.Parameters.AddWithValue("@DeckId", this.Id);
