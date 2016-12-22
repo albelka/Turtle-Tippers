@@ -138,41 +138,73 @@ namespace TurtleTippers.Objects
 
         public static void BuildPlayerDeck(Player player, int deckSize = 30)
         {
+
             SqlConnection conn = DB.Connection();
             conn.Open();
 
-            SqlCommand cmd = new SqlCommand("SELECT id FROM cards;", conn);
+            SqlCommand cmd1 = new SqlCommand("SELECT id FROM cards WHERE tier = 1;", conn);
 
-            SqlDataReader rdr = cmd.ExecuteReader();
+            SqlDataReader rdr1 = cmd1.ExecuteReader();
 
-            List<int> cardIds = new List<int> {};
-            while(rdr.Read())
+            List<int> tier1Ids = new List<int>{};
+            while(rdr1.Read())
             {
-                int newId = rdr.GetInt32(0);
-                cardIds.Add(newId);
+                int newId = rdr1.GetInt32(0);
+                tier1Ids.Add(newId);
             }
-            if(rdr != null)
+            // Console.WriteLine(tier1Ids.ToString());
+            if(rdr1 != null)
             {
-                rdr.Close();
+                rdr1.Close();
+            }
+
+            SqlCommand cmd2 = new SqlCommand("SELECT id FROM cards WHERE tier = 2;", conn);
+
+            SqlDataReader rdr2 = cmd2.ExecuteReader();
+
+            List<int> tier2Ids = new List<int>{};
+            while(rdr2.Read())
+            {
+                int newId = rdr2.GetInt32(0);
+                tier2Ids.Add(newId);
+            }
+            // Console.WriteLine(tier1Ids.ToString());
+            if(rdr2 != null)
+            {
+                rdr2.Close();
             }
 
             Random rand1 = new Random();
 
+            List<int> cardIds = new List<int>{};
+
             for(int i = 0; i < deckSize; i++)
             {
-                int randomCardId = cardIds[rand1.Next(cardIds.Count)];
-                Card selectedCard = Card.Find(randomCardId);
+                int tier = rand1.Next(100);
+                if (tier <=  87)
+                {
+                    cardIds.Add(tier2Ids[(rand1.Next(tier2Ids.Count))]);
+                }
+                else
+                {
+                    cardIds.Add(tier1Ids[(rand1.Next(tier1Ids.Count))]);
+                }
+            }
+
+            for(int i = 0; i < cardIds.Count; i++)
+            {
+                Card selectedCard = Card.Find(cardIds[i]);
                 Deck newDeck = new Deck(selectedCard.Id, player.Id, selectedCard.Defense);
-                SqlCommand cmd2 = new SqlCommand("INSERT INTO decks (card_id, player_id, in_hand, in_play, discard, HP) VALUES (@CardId, @PlayerId, @InHand, @InPlay, @Discard, @HP);", conn);
+                SqlCommand cmd3 = new SqlCommand("INSERT INTO decks (card_id, player_id, in_hand, in_play, discard, HP) VALUES (@CardId, @PlayerId, @InHand, @InPlay, @Discard, @HP);", conn);
 
-                cmd2.Parameters.AddWithValue("@CardId", newDeck.CardId);
-                cmd2.Parameters.AddWithValue("@PlayerId", newDeck.PlayerId);
-                cmd2.Parameters.AddWithValue("@InHand", newDeck.InHand);
-                cmd2.Parameters.AddWithValue("@InPlay", newDeck.InPlay);
-                cmd2.Parameters.AddWithValue("@Discard", newDeck.Discard);
-                cmd2.Parameters.AddWithValue("@HP", newDeck.HP);
+                cmd3.Parameters.AddWithValue("@CardId", newDeck.CardId);
+                cmd3.Parameters.AddWithValue("@PlayerId", newDeck.PlayerId);
+                cmd3.Parameters.AddWithValue("@InHand", newDeck.InHand);
+                cmd3.Parameters.AddWithValue("@InPlay", newDeck.InPlay);
+                cmd3.Parameters.AddWithValue("@Discard", newDeck.Discard);
+                cmd3.Parameters.AddWithValue("@HP", newDeck.HP);
 
-                cmd2.ExecuteNonQuery();
+                cmd3.ExecuteNonQuery();
             }
 
             if(conn != null)
