@@ -16,6 +16,10 @@ namespace TurtleTippers.Objects
       public static string TurnPhase {get; set;}
       public static int PartialTurnCount {get; set;}
       public static int WholeTurnCount {get; set;}
+      public static List<int> HaveAttackedDeckIds1 {get; set;}
+      public static List<int> HaveAttackedDeckIds2 {get; set;}
+      public static int StartingCombatCards1 {get; set;}
+      public static int StartingCombatCards2 {get; set;}
 
 
     public Arena(int arenaPlayer1Id, int arenaPlayer2Id, int currentPlayerId = 0, int attackingDeckId = 0, int id = 0)
@@ -29,6 +33,10 @@ namespace TurtleTippers.Objects
       TurnPhase = "play";
       PartialTurnCount = 0;
       WholeTurnCount = 0;
+      HaveAttackedDeckIds1 = new List<int> {};
+      HaveAttackedDeckIds2 = new List<int> {};
+      StartingCombatCards1 = 0;
+      StartingCombatCards2 = 0;
     }
 
     public static void SetCurrentPlayer()
@@ -51,6 +59,15 @@ namespace TurtleTippers.Objects
     // Method for when cards fight each other, probably also evaluate if a card dies
     public static void CompareCards(Deck deck1, Deck deck2)
     {
+        if(CurrentPlayerId == Player1Id)
+        {
+          HaveAttackedDeckIds1.Add(deck1.Id);
+        }
+        else if(CurrentPlayerId == Player2Id)
+        {
+          HaveAttackedDeckIds2.Add(deck2.Id);
+        }
+
         Card card1 = deck1.GetCard();
         Card card2 = deck2.GetCard();
 
@@ -71,11 +88,19 @@ namespace TurtleTippers.Objects
     {
         if(CurrentPlayerId == Player1Id)
         {
+            Player player2 = Player.Find(Player2Id);
+            StartingCombatCards2 = Deck.GetCardsInPlay(player2).Count;
+            HaveAttackedDeckIds1.Clear();
+            HaveAttackedDeckIds2.Clear();
             CurrentPlayerId = Player2Id;
             OtherPlayerId = Player1Id;
         }
         else
         {
+            Player player1 = Player.Find(Player1Id);
+            StartingCombatCards1 = Deck.GetCardsInPlay(player1).Count;
+            HaveAttackedDeckIds1.Clear();
+            HaveAttackedDeckIds2.Clear();
             CurrentPlayerId = Player1Id;
             OtherPlayerId = Player2Id;
         }
