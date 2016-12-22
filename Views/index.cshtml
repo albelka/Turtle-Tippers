@@ -26,9 +26,14 @@
             {
               var card = deckCard.GetCard();
               <label>
-              @if(Model["turnPhase"] == "combat")
+              @if(Model["turnPhase"] == "combat" && Model["usedCardsPlayer1"].IndexOf(deckCard.Id) < 0)
               {
                 <input type="radio" name="p1-combat-card" value="@deckCard.Id" class="combatCard" required>
+              }
+              else
+              {
+                <div class="radio-filler">
+                </div>
               }
               <div class="cardDisplay pull-left">
                 <div class="image-border">
@@ -56,9 +61,14 @@
               {
                 var card = deckCard.GetCard();
                 <label>
-                @if(Model["turnPhase"] == "combat")
+                @if(Model["turnPhase"] == "combat" && Model["usedCardsPlayer2"].IndexOf(deckCard.Id) < 0)
                 {
                   <input type="radio" name="p2-combat-card" value="@deckCard.Id" class="combatCard" required>
+                }
+                else
+                {
+                  <div class="radio-filler">
+                  </div>
                 }
                 <div class="cardDisplay pull-right">
                   <div class="image-border">

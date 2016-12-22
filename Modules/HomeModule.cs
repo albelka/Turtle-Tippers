@@ -38,6 +38,8 @@ namespace TurtleTippers
             model.Add("p2InPlay", Deck.GetCardsInPlay(player2));
             model.Add("currentInPlay", Deck.GetCardsInPlay(currentPlayer));
             model.Add("otherInPlay", Deck.GetCardsInPlay(otherPlayer));
+            model.Add("usedCardsPlayer1", Arena.HaveAttackedDeckIds1);
+            model.Add("usedCardsPlayer2", Arena.HaveAttackedDeckIds2);
             return View["index.cshtml", model];
           };
 
@@ -68,16 +70,22 @@ namespace TurtleTippers
             model.Add("p2InPlay", Deck.GetCardsInPlay(player2));
             model.Add("currentInPlay", Deck.GetCardsInPlay(currentPlayer));
             model.Add("otherInPlay", Deck.GetCardsInPlay(otherPlayer));
-
+            model.Add("usedCardsPlayer1", Arena.HaveAttackedDeckIds1);
+            model.Add("usedCardsPlayer2", Arena.HaveAttackedDeckIds2);
             return View["index.cshtml", model];
           };
 
           Post["/combat"] = _ => {
-            Arena.PartialTurnCount += 1;
-            Arena.TurnStarter();
-            Arena.CompareCards(Deck.Find(int.Parse(Request.Form["p1-combat-card"])), Deck.Find(int.Parse(Request.Form["p2-combat-card"])));
             Player player1 = Player.Find(Arena.Player1Id);
             Player player2 = Player.Find(Arena.Player2Id);
+            Arena.CompareCards(Deck.Find(int.Parse(Request.Form["p1-combat-card"])), Deck.Find(int.Parse(Request.Form["p2-combat-card"])));
+            if((Arena.CurrentPlayerId == Arena.Player1Id && Arena.HaveAttackedDeckIds1.Count == Arena.StartingCombatCards1) || (Arena.CurrentPlayerId == Arena.Player2Id && Arena.HaveAttackedDeckIds2.Count == Arena.StartingCombatCards2))
+            {
+              Arena.PartialTurnCount += 1;
+              Arena.TurnStarter();
+            }
+            player1 = Player.Find(Arena.Player1Id);
+            player2 = Player.Find(Arena.Player2Id);
             Player currentPlayer = Player.Find(Arena.CurrentPlayerId);
             Player otherPlayer = Player.Find(Arena.OtherPlayerId);
             Dictionary<string, object> model = new Dictionary<string, object>();
@@ -90,6 +98,8 @@ namespace TurtleTippers
             model.Add("p2InPlay", Deck.GetCardsInPlay(player2));
             model.Add("currentInPlay", Deck.GetCardsInPlay(currentPlayer));
             model.Add("otherInPlay", Deck.GetCardsInPlay(otherPlayer));
+            model.Add("usedCardsPlayer1", Arena.HaveAttackedDeckIds1);
+            model.Add("usedCardsPlayer2", Arena.HaveAttackedDeckIds2);
             return View["index.cshtml", model];
           };
           Get["/combat"] = _ => {
@@ -110,14 +120,17 @@ namespace TurtleTippers
             model.Add("p2InPlay", Deck.GetCardsInPlay(player2));
             model.Add("currentInPlay", Deck.GetCardsInPlay(currentPlayer));
             model.Add("otherInPlay", Deck.GetCardsInPlay(otherPlayer));
+            model.Add("usedCardsPlayer1", Arena.HaveAttackedDeckIds1);
+            model.Add("usedCardsPlayer2", Arena.HaveAttackedDeckIds2);
             return View["index.cshtml", model];
           };
           Get["/turtle"] = _ => {
             Player currentPlayer = Player.Find(Arena.CurrentPlayerId);
             Player otherPlayer = Player.Find(Arena.OtherPlayerId);
-            int cardsInPlay = Deck.GetCardsInPlay(currentPlayer).Count;
-            for(int i=0; i<cardsInPlay; i++)
+            List<Deck> cardsInPlay = Deck.GetCardsInPlay(currentPlayer);
+            for(int i=0; i < cardsInPlay.Count; i++)
             {
+              if(Arena.HaveAttackedDeckIds1.IndexOf(cardsInPlay[i].Id) < 0 && Arena.HaveAttackedDeckIds2.IndexOf(cardsInPlay[i].Id) < 0)
               otherPlayer.TurtleFlip();
             }
             Arena.PartialTurnCount += 1;
@@ -136,6 +149,8 @@ namespace TurtleTippers
             model.Add("p2InPlay", Deck.GetCardsInPlay(player2));
             model.Add("currentInPlay", Deck.GetCardsInPlay(currentPlayer));
             model.Add("otherInPlay", Deck.GetCardsInPlay(otherPlayer));
+            model.Add("usedCardsPlayer1", Arena.HaveAttackedDeckIds1);
+            model.Add("usedCardsPlayer2", Arena.HaveAttackedDeckIds2);
             return View["index.cshtml", model];
           };
         }
