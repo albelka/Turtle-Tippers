@@ -27,24 +27,37 @@
           </ul>
         </div>
       </div>
+    <div class="row">
+      <form  action="/game" method="post">
       <div class="col-sm-6 start-button">
-        <h2 class="player-title">Player <span class="player-number">1</span></h2>
-        <form  action="/game" method="post">
+        <label for="deck-size">Deck Size:</label>
+        <input type="number" name="deck-size" max="100" min="10" value="30" required>
+      </div>
+      <div class="col-sm-6 start-button">
+        <label for="draw-limit">Draw Limit</label>
+        <input type="number" name="draw-limit" required min="1" max="5" value="3">
+      </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 start-button">
+          <h2 class="player-title">Player 1</h2>
           <label for="player-1">Enter your battle name</label>
-          <input type="text" name="player-1" required>
+          <input type="text" name="player-1" autofocus required>
         </div>
         <div class="col-sm-6 start-button">
-          <h2 class="player-title">Player <span class="player-number">2</span></h2>
+          <h2 class="player-title">Player 2</h2>
           <label for="player-2">Enter your battle name</label>
           <input type="text" name="player-2" required>
         </div>
-        <div class="row">
-          <div class="col-sm-12 start-button">
-            <br>
+      </div>
+      <div class="row">
+        <div class="col-sm-12 start-button">
+          <br>
           <button type="submit" class="btn btn-success" >Start Game</button>
           <br>
         </div>
-        </div>
-      </form>
       </div>
-    </div>
+    </form>
+  </div>
+</div>
+</div>

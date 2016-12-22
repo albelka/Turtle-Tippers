@@ -20,6 +20,8 @@ namespace TurtleTippers.Objects
       public static List<int> HaveAttackedDeckIds2 {get; set;}
       public static int StartingCombatCards1 {get; set;}
       public static int StartingCombatCards2 {get; set;}
+      public static int DeckSize {get; set;}
+      public static int DrawLimit {get; set;}
 
 
     public Arena(int arenaPlayer1Id, int arenaPlayer2Id, int currentPlayerId = 0, int attackingDeckId = 0, int id = 0)
@@ -37,6 +39,8 @@ namespace TurtleTippers.Objects
       HaveAttackedDeckIds2 = new List<int> {};
       StartingCombatCards1 = 0;
       StartingCombatCards2 = 0;
+      DeckSize = 30;
+      DrawLimit = 3;
     }
 
     public static void SetCurrentPlayer()

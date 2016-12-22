@@ -315,7 +315,7 @@ namespace TurtleTippers.Objects
             Player selectedPlayer = Player.Find(this.PlayerId);
             if(this.InHand == true && (this.GetCard().Attack > 0 || this.GetCard().Defense > 0))
             {
-                if(selectedPlayer.Turtles < selectedPlayer.MaxTurtles && this.CardId == 4)
+                if(selectedPlayer.Turtles < selectedPlayer.MaxTurtles && this.GetCard().Revive > 0)
                 {
                     this.DiscardCard();
                     selectedPlayer.TurtleUnflip(this.GetCard().Revive);
