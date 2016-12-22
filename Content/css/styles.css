@@ -31,6 +31,47 @@ h1 {
   width: 40%;
 }
 
+.play-card-flex {
+  display: flex;
+  flex-direction: row;
+  width: 380px;
+  height: 595px;
+  flex-wrap: wrap;
+}
+
+.flex-right {
+  flex-direction: row-reverse;
+}
+
+input[type=radio] {
+  display: none;
+}
+
+input[type=radio] + .custom-radio {
+  float: left;
+}
+
+input[type=radio] + .custom-radio {
+  display: inline-block;
+  border: 3px solid #384D26;
+  border-radius: 50%;
+  background-color: #B5D361;
+  margin: 0 0.5em;
+}
+
+input[type=radio]:checked + .custom-radio {
+  background-color: rgb(210, 89, 0);
+}
+
+.custom-radio {
+  height: 1em;
+  width: 1em;
+}
+
+.flex-right input[type=radio] + span {
+  float: right;
+}
+
 .inline-flexer {
   display: inline-flex;
   height: 30px;
