@@ -1,17 +1,60 @@
+@font-face {
+    font-family: "turtles";
+    src: url("/../Content/Fonts/CHLORINR.TTF");
+}
+
+@font-face {
+    font-family: "mister-vampire";
+    src: url("/../Content/Fonts/MISTV___.TTF");
+}
+
+@font-face {
+    font-family: "comic-andy";
+    src: url("/../Content/Fonts/comic_andy.TTF");
+}
+
 h1 {
   text-align: center;
+  font-size: 100px;
   font-weight: bolder;
-  font-family: cursive;
-  color: ivory;
+  font-family: mister-vampire;
+  color: #B5D361;
 }
 
 .turtles img {
   height: 100px;
 }
-.player-title{
+
+.player-title {
     color: black;
-    font-family: cursive;
+    font-family: mister-vampire;
+    color: #384D26;
 }
+
+.spacer {
+  width: 40%;
+}
+
+.inline-flexer {
+  display: inline-flex;
+  height: 30px;
+  align-items: center;
+  width: 100%;
+}
+
+.inline-flexer h3 {
+  align-self: center;
+}
+
+.center {
+  text-align: center;
+}
+
+h3 {
+    font-family: mister-vampire;
+    color: white;
+}
+
 body {
     background-image: url("/../Content/img/forest3.jpg");
     background-attachment: fixed;
@@ -38,7 +81,7 @@ body {
 }
 
 input:checked + label {
-  box-shadow: -8px 8px 5px red;
+  box-shadow: -8px 8px 5px #B5D361;
   border-radius: 10px;
 }
 
@@ -95,7 +138,7 @@ input:checked + label {
   height: 180px;
   width: 140px;
   padding: 5px;
-  margin: 15px 5px;
+  margin: 5px 5px;
 
 }
 .inPlay .cardImage img {

@@ -4,7 +4,7 @@
     <h1>Turtle Tippers</h1>
     <div class="row background">
       <div class="col-sm-6">
-        <h2 class="player-title">Player 1</h2>
+        <h2 class="player-title">Player <span class="player-number">1</span></h2>
         <div class="row">
           <div class="col-sm-4 turtles">
             @for(int i=0; i< @Model["player1"].Turtles; i++)
@@ -49,7 +49,7 @@
         </div>
       </div>
       <div class="col-sm-6">
-        <h2 class="player-title">Player 2</h2>
+        <h2 class="player-title">Player <span class="player-number">2<span></h2>
         <div class="row">
             <div class="col-sm-8 inPlay">
               @foreach(var deckCard in Model["p2InPlay"])
@@ -94,39 +94,44 @@
     </div>
     <br>
     <div class="row">
-      <div class="col-sm-12">
-        @if(Model["turnPhase"] == "over1")
-        {
-          <h1>Game over! @Model["player1"].Name wins!</h1>
-        }
-        @if(Model["turnPhase"] == "over2")
-        {
-          <h1>Game over! @Model["player2"].Name wins!</h1>
-        }
-        @if(Model["turnPhase"] == "combat" && Model["p2InPlay"].Count > 0 && Model["p1InPlay"].Count > 0)
-        {
-          <button type="submit" class="btn btn-danger">Fight!</button>
-        }
-        @if(Model["turnPhase"] == "combat" && Model["currentInPlay"].Count < 1)
-        {
-          <a href="/combat" class="btn btn-warning">Skip combat</a>
-        }
-        @if(Model["turnPhase"] == "combat" && Model["currentInPlay"].Count > 0 && Model["otherInPlay"].Count < 1)
-        {
-          <a href="/turtle" class="btn btn-warning">Tip Turtles!</a>
-        }
-        @if(Model["currentPlayerId"] == @Model["player1"].Id)
-        {
-          <div>
-          <h3>@Model["player1"].Name</h3>
+      <div class="col-sm-12 center">
+        <div class="inline-flexer">
+          @if(Model["turnPhase"] == "over1")
+          {
+            <h1>Game over! @Model["player1"].Name wins!</h1>
+          }
+          @if(Model["turnPhase"] == "over2")
+          {
+            <h1>Game over! @Model["player2"].Name wins!</h1>
+          }
+          @if(Model["turnPhase"] == "combat" && Model["p2InPlay"].Count > 0 && Model["p1InPlay"].Count > 0)
+          {
+            <button type="submit" class="btn btn-danger">Fight!</button>
+          }
+          @if(Model["turnPhase"] == "combat" && Model["currentInPlay"].Count < 1)
+          {
+            <a href="/combat" class="btn btn-warning">Skip combat</a>
+          }
+          @if(Model["turnPhase"] == "combat" && Model["currentInPlay"].Count > 0 && Model["otherInPlay"].Count < 1)
+          {
+            <a href="/turtle" class="btn btn-warning">Tip Turtles!</a>
+          }
+          <div class="spacer">
+
           </div>
-        }
-        else
-        {
-          <div>
-          <h3>@Model["player2"].Name</h3>
-          </div>
-        }
+          @if(Model["currentPlayerId"] == @Model["player1"].Id)
+          {
+            <div class="current-player">
+            <h3>@Model["player1"].Name Turn</h3>
+            </div>
+          }
+          else
+          {
+            <div class="current-player">
+            <h3>@Model["player2"].Name Turn</h3>
+            </div>
+          }
+        </div>
       </div>
     </form>
     </div>

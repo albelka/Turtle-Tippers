@@ -22,7 +22,7 @@ namespace TurtleTippers
             Player otherPlayer = Player.Find(Arena.OtherPlayerId);
             Deck.BuildPlayerDeck(player1);
             Deck.BuildPlayerDeck(player2);
-            for(int i = 0; i<5; i++)
+            for(int i = 0; i<3; i++)
             {
               Deck.DrawCard(player1);
               Deck.DrawCard(player2);
