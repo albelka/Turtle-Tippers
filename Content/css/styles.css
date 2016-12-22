@@ -1,7 +1,4 @@
-@font-face {
-    font-family: "turtles";
-    src: url("/../Content/Fonts/CHLORINR.TTF");
-}
+
 
 @font-face {
     font-family: "mister-vampire";
@@ -26,7 +23,6 @@ h1 {
 }
 
 .player-title {
-    color: black;
     font-family: mister-vampire;
     color: #384D26;
 }
@@ -78,6 +74,10 @@ body {
 }
 #hand {
   display: inline-flex;
+}
+.start-button {
+  text-align: center;
+  padding: 10px;
 }
 
 input:checked + label {

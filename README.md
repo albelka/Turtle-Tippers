@@ -61,3 +61,13 @@ Choose
 Show
 Target
 Fight
+
+
+Start page with name entry
+Add more cards
+Implement deck tiers
+README
+In-game instructions and feedback
+Attack with more than one card per turn
+OR
+Play only one card per turn
