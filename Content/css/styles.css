@@ -88,9 +88,9 @@ input:checked + label {
 .cardDisplay {
   border: 3px solid black;
   border-radius: 10px;
-  height: 265px;
+  height: 275px;
   width: 180px;
-  padding: 15px;
+  padding: 6px;
   margin: 0px 0px;
   background: url("/../Content/img/card-background.png"), rgba(253, 246, 232, 0.8);
 }
@@ -103,7 +103,6 @@ input:checked + label {
 .image-border {
   height: 180px;
   width: 170px;
-  margin: -15px;
   overflow: hidden;
 }
 .cardImage {
