@@ -1,6 +1,8 @@
 using Xunit;
 using TurtleTippers.Objects;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System;
 
 namespace TurtleTippers
@@ -41,15 +43,26 @@ namespace TurtleTippers
             Player newPlayer = new Player(10, "Tom");
             newPlayer.Save();
             // Build a deck for player 1.
-            Deck.BuildPlayerDeck(newPlayer);
+            Deck.BuildPlayerDeck(newPlayer, 100);
 
             int result = Deck.GetAll().Count;
             int expected = 30;
 
-            // foreach(Deck deck in Deck.GetAll())
-            // {
-            //     Console.WriteLine("id: " + deck.Id + ", card_id: " + deck.CardId + ", player_id: " + deck.PlayerId);
-            // }
+            List<int> tier1Ids = new List<int>{};
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+            SqlCommand cmd = new SqlCommand("SELECT card_id FROM decks WHERE card_id = 3 OR card_id = 5 OR card_id = 10 OR card_id = 15 OR card_id=16", conn);
+            SqlDataReader rdr = cmd.ExecuteReader();
+            while(rdr.Read())
+            {
+              tier1Ids.Add(rdr.GetInt32(0));
+            }
+            if (rdr != null) rdr.Close();
+            if (conn != null) conn.Close();
+
+              Console.WriteLine(tier1Ids.Count);              
+
+
             Assert.Equal(expected, result);
         }
 
