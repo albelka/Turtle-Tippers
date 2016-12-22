@@ -1,185 +1,50 @@
-@{
+/*@{
   Layout="Shared/_Layout.cshtml";
-}
+}*/
     <h1>Turtle Tippers</h1>
     <div class="row background">
-      <div class="col-sm-6">
+      <div class="col-sm-12">
+        <div class="rules">
+          <h2 class="player-title">Rules</h2>
+          <p>
+            Enlist friendly forest animals to protect your turtles from cruel attacks. Don't let your rival animals tip your beloved turtles!
+          </p>
+          <p>
+            Each player selects cards from their hand to fight and protect their turtles. After the battle, if no cards are left to protect your turtles they will be tipped! Do the same to your opponent's hideous turtles. Once a player's turtles are all tipped the game is over.
+          </p>
+          <h5>Play Cards</h5>
+          <ul>
+            <li>Choose cards from your hand to play in front of your turtles.</li>
+            <li>Fruit cards will revive tipped turtles.</li>
+            <li>Up to 6 cards can be in play at a time.</li>
+          </ul>
+          <h5>Combat</h5>
+          <ul>
+            <li>Choose one target from your opponent's cards for each of your champions to attack.</li>
+            <li>Keep attacking until all your animals take a turn.</li>
+            <li>If your opponent has no defenders, each attacker left will tip a turtle.</li>
+            <li>If you have no attackers, you must skip your combat turn.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-sm-6 start-button">
         <h2 class="player-title">Player <span class="player-number">1</span></h2>
+        <form  action="/game" method="post">
+          <label for="player-1">Enter your battle name</label>
+          <input type="text" name="player-1" required>
+        </div>
+        <div class="col-sm-6 start-button">
+          <h2 class="player-title">Player <span class="player-number">2</span></h2>
+          <label for="player-2">Enter your battle name</label>
+          <input type="text" name="player-2" required>
+        </div>
         <div class="row">
-          <div class="col-sm-4 turtles">
-            @for(int i=0; i< @Model["player1"].Turtles; i++)
-            {
-              <img src="/../Content/img/turtle.png" alt="an image of a turtle"/>
-            }
-            @if (@Model["player1"].Turtles < 5)
-            {
-              @for(int i=0; i< 5-@Model["player1"].Turtles; i++)
-              {
-                <img src="/../Content/img/upside-down-turtle.png" alt="an image of a tipped turtle"/>
-              }
-            }
-          </div>
-          <div class="col-sm-8 inPlay" >
-            <form action="/combat" method="post">
-
-            <div class="play-card-flex">
-              @foreach(var deckCard in Model["p1InPlay"])
-              {
-                var card = deckCard.GetCard();
-                <label>
-                @if(Model["turnPhase"] == "combat" && Model["usedCardsPlayer1"].IndexOf(deckCard.Id) < 0)
-                {
-                  <input type="radio" name="p1-combat-card" value="@deckCard.Id" class="combatCard" required><span class="custom-radio"></span>
-                }
-                <div class="cardDisplay">
-                  <div class="image-border">
-                    <div class="cardImage">
-                      <img src="@card.Image" alt="" />
-                    </div>
-                  </div>
-                  <div class="cardHP pull-right">
-                    <p>@deckCard.HP</p>
-                  </div>
-                  <div class="cardAttack">
-                    <p>@card.Attack</p>
-                  </div>
-                </div>
-                </label>
-              }
-            </div>
-          </div>
+          <div class="col-sm-12 start-button">
+            <br>
+          <button type="submit" class="btn btn-success" >Start Game</button>
+          <br>
         </div>
-      </div>
-      <div class="col-sm-6">
-        <h2 class="player-title">Player <span class="player-number">2<span></h2>
-        <div class="row">
-            <div class="col-sm-8 inPlay">
-              <div class="play-card-flex flex-right">
-                @foreach(var deckCard in Model["p2InPlay"])
-                {
-                  var card = deckCard.GetCard();
-                  <label>
-                  @if(Model["turnPhase"] == "combat" && Model["usedCardsPlayer2"].IndexOf(deckCard.Id) < 0)
-                  {
-                    <input type="radio" name="p2-combat-card" value="@deckCard.Id" class="combatCard" required><span class="custom-radio"></span>
-                  }
-                  <div class="cardDisplay">
-                    <div class="image-border">
-                      <div class="cardImage">
-                        <img src="@card.Image" alt="" />
-                      </div>
-                    </div>
-                    <div class="cardHP pull-right">
-                      <p>@deckCard.HP</p>
-                    </div>
-                    <div class="cardAttack">
-                      <p>@card.Attack</p>
-                    </div>
-                  </div>
-                  </label>
-                }
-              </div>
-            </div>
-            <div class="col-sm-4 turtles">
-              @for(int i=0; i< @Model["player2"].Turtles; i++)
-              {
-                <img src="/../Content/img/turtle.png" alt="an image of a turtle"/>
-              }
-              @if (@Model["player2"].Turtles < 5)
-              {
-                @for(int i=0; i< 5-@Model["player2"].Turtles; i++)
-                {
-                  <img src="/../Content/img/upside-down-turtle.png" alt="an image of a tipped turtle"/>
-                }
-              }
-            </div>
         </div>
+      </form>
       </div>
-    </div>
-    <br>
-    <div class="row">
-      <div class="col-sm-12 center">
-        <div class="inline-flexer">
-          @if(Model["turnPhase"] == "over1")
-          {
-            <h1>Game over! @Model["player1"].Name wins!</h1>
-          }
-          @if(Model["turnPhase"] == "over2")
-          {
-            <h1>Game over! @Model["player2"].Name wins!</h1>
-          }
-          @if(Model["turnPhase"] == "combat" && Model["p2InPlay"].Count > 0 && Model["p1InPlay"].Count > 0)
-          {
-            <button type="submit" class="btn btn-danger">Fight!</button>
-          }
-          @if(Model["turnPhase"] == "combat" && Model["currentInPlay"].Count < 1)
-          {
-            <a href="/combat" class="btn btn-warning">Skip combat</a>
-          }
-          @if(Model["turnPhase"] == "combat" && Model["currentInPlay"].Count > 0 && Model["otherInPlay"].Count < 1)
-          {
-            <a href="/turtle" class="btn btn-warning">Tip Turtles!</a>
-          }
-          <div class="spacer">
-
-          </div>
-          @if(Model["currentPlayerId"] == @Model["player1"].Id)
-          {
-            <div class="current-player">
-            <h3>@Model["player1"].Name Turn</h3>
-            </div>
-          }
-          else
-          {
-            <div class="current-player">
-            <h3>@Model["player2"].Name Turn</h3>
-            </div>
-          }
-        </div>
-      </div>
-    </form>
-    </div>
-    <br>
-    <div class="row" id="hand">
-      @if(Model["turnPhase"] == "play")
-      {
-        <div class="hand-flex">
-        <form action="/playCard" method="post">
-        @foreach(var deckCard in Model["currentPlayerHand"])
-        {
-          var card = deckCard.GetCard();
-            <input id="@deckCard.Id" type="checkbox" name="handCard" class="vis-hidden" value="@deckCard.Id" />
-            <label for="@deckCard.Id">
-              <div class="cardDisplay">
-                <div class="image-border">
-                  <div class="cardImage">
-                    <img src="@card.Image" alt="" />
-                  </div>
-                </div>
-                <div class="cardFlavor">
-                  <br>
-                  <p>@card.FlavorText</p>
-                </div>
-                <div class="cardHP pull-right">
-                  <p>@card.Defense</p>
-                </div>
-                <div class="cardAttack">
-                  <p>@card.Attack</p>
-                </div>
-              </div>
-            </label>
-          }
-        }
-        <button type="submit" class="btn btn-success pull-right">Play Card</button>
-        </form>
-      </div>
-      }
-
-    </div>
-  </div>
-</div>
-
-
-
-
     </div>
