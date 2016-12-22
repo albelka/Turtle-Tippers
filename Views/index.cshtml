@@ -139,11 +139,11 @@
     <div class="row" id="hand">
       @if(Model["turnPhase"] == "play")
       {
+        <div class="hand-flex">
         <form action="/playCard" method="post">
         @foreach(var deckCard in Model["currentPlayerHand"])
         {
           var card = deckCard.GetCard();
-          <div class="col-sm-2">
             <input id="@deckCard.Id" type="checkbox" name="handCard" class="vis-hidden" value="@deckCard.Id" />
             <label for="@deckCard.Id">
               <div class="cardDisplay">
@@ -164,15 +164,11 @@
                 </div>
               </div>
             </label>
-          </div>
           }
         }
-        <div class="col-sm-2">
         <button type="submit" class="btn btn-success pull-right">Play Card</button>
-        <br>
-
-        </div>
         </form>
+      </div>
       }
 
     </div>
