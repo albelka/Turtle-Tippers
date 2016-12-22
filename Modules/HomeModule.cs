@@ -22,10 +22,12 @@ namespace TurtleTippers
             player2.Save();
             Arena newArena = new Arena(player1.Id, player2.Id);
             Arena.SetCurrentPlayer();
+            Arena.DeckSize = int.Parse(Request.Form["deck-size"]);
+            Arena.DrawLimit = int.Parse(Request.Form["draw-limit"]);
             Player currentPlayer = Player.Find(Arena.CurrentPlayerId);
             Player otherPlayer = Player.Find(Arena.OtherPlayerId);
-            Deck.BuildPlayerDeck(player1);
-            Deck.BuildPlayerDeck(player2);
+            Deck.BuildPlayerDeck(player1, Arena.DeckSize);
+            Deck.BuildPlayerDeck(player2, Arena.DeckSize);
             for(int i = 0; i<5; i++)
             {
               Deck.DrawCard(player1);
@@ -45,12 +47,11 @@ namespace TurtleTippers
             model.Add("usedCardsPlayer2", Arena.HaveAttackedDeckIds2);
             model.Add("p1Deck", Deck.GetPlayerDeck(player1).Count);
             model.Add("p2Deck", Deck.GetPlayerDeck(player2).Count);
+            model.Add("drawLimit", Arena.DrawLimit);
             return View["game.cshtml", model];
           };
 
           Post["/playCard"] = _ => {
-            Arena.PartialTurnCount += 1;
-            Arena.TurnStarter();
             if(Request.Form["handCard"].ToString() != "Nancy.DynamicDictionaryValue" )
             {
               string[] splitInput = Request.Form["handCard"].ToString().Split(',');
@@ -58,9 +59,14 @@ namespace TurtleTippers
               {
                 Deck selectedDeck = Deck.Find(int.Parse(input));
                 selectedDeck.PlayCard();
-                Deck.DrawCard(Player.Find(selectedDeck.PlayerId));
+              }
+              for (int i = 0; i < Arena.DrawLimit; i++)
+              {
+                Deck.DrawCard(Player.Find(Arena.CurrentPlayerId));
               }
             }
+            Arena.PartialTurnCount += 1;
+            Arena.TurnStarter();
             Player player1 = Player.Find(Arena.Player1Id);
             Player player2 = Player.Find(Arena.Player2Id);
             Player currentPlayer = Player.Find(Arena.CurrentPlayerId);
@@ -79,6 +85,7 @@ namespace TurtleTippers
             model.Add("usedCardsPlayer2", Arena.HaveAttackedDeckIds2);
             model.Add("p1Deck", Deck.GetPlayerDeck(player1).Count);
             model.Add("p2Deck", Deck.GetPlayerDeck(player2).Count);
+            model.Add("drawLimit", Arena.DrawLimit);
             return View["game.cshtml", model];
           };
 
@@ -109,6 +116,7 @@ namespace TurtleTippers
             model.Add("usedCardsPlayer2", Arena.HaveAttackedDeckIds2);
             model.Add("p1Deck", Deck.GetPlayerDeck(player1).Count);
             model.Add("p2Deck", Deck.GetPlayerDeck(player2).Count);
+            model.Add("drawLimit", Arena.DrawLimit);
             return View["game.cshtml", model];
           };
           Get["/combat"] = _ => {
@@ -133,6 +141,7 @@ namespace TurtleTippers
             model.Add("usedCardsPlayer2", Arena.HaveAttackedDeckIds2);
             model.Add("p1Deck", Deck.GetPlayerDeck(player1).Count);
             model.Add("p2Deck", Deck.GetPlayerDeck(player2).Count);
+            model.Add("drawLimit", Arena.DrawLimit);
             return View["game.cshtml", model];
           };
           Get["/turtle"] = _ => {
@@ -164,6 +173,7 @@ namespace TurtleTippers
             model.Add("usedCardsPlayer2", Arena.HaveAttackedDeckIds2);
             model.Add("p1Deck", Deck.GetPlayerDeck(player1).Count);
             model.Add("p2Deck", Deck.GetPlayerDeck(player2).Count);
+            model.Add("drawLimit", Arena.DrawLimit);
             return View["game.cshtml", model];
           };
         }

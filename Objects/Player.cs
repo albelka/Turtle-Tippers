@@ -2,6 +2,8 @@ using System.Data;
 using System;
 using System.Data.SqlClient;
 using System.Collections.Generic;
+using System.Media;
+using System.IO;
 
 namespace TurtleTippers.Objects
 {
@@ -148,6 +150,9 @@ namespace TurtleTippers.Objects
               this.Turtles = 0;
             }
 
+            SoundPlayer sound = new SoundPlayer(@"Content\Sounds\scream.wav");
+            sound.Load();
+            sound.Play();
             SqlConnection conn = DB.Connection();
             conn.Open();
 
