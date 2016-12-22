@@ -50,6 +50,10 @@ h3 {
     font-family: mister-vampire;
     color: white;
 }
+h4 {
+  font-family: mister-vampire;
+  color: #384D26;
+}
 
 body {
     background-image: url("/../Content/img/forest3.jpg");
