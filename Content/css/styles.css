@@ -1,7 +1,4 @@
-@font-face {
-    font-family: "turtles";
-    src: url("/../Content/Fonts/CHLORINR.TTF");
-}
+
 
 @font-face {
     font-family: "mister-vampire";
@@ -26,7 +23,6 @@ h1 {
 }
 
 .player-title {
-    color: black;
     font-family: mister-vampire;
     color: #384D26;
 }
@@ -79,6 +75,10 @@ body {
 #hand {
   display: inline-flex;
 }
+.start-button {
+  text-align: center;
+  padding: 10px;
+}
 
 input:checked + label {
   box-shadow: -8px 8px 5px #B5D361;
@@ -88,9 +88,9 @@ input:checked + label {
 .cardDisplay {
   border: 3px solid black;
   border-radius: 10px;
-  height: 265px;
+  height: 275px;
   width: 180px;
-  padding: 15px;
+  padding: 6px;
   margin: 0px 0px;
   background: url("/../Content/img/card-background.png"), rgba(253, 246, 232, 0.8);
 }
@@ -103,7 +103,6 @@ input:checked + label {
 .image-border {
   height: 180px;
   width: 170px;
-  margin: -15px;
   overflow: hidden;
 }
 .cardImage {
