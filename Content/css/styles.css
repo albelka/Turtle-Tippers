@@ -91,6 +91,9 @@ h3 {
     font-family: mister-vampire;
     color: white;
 }
+.rules p {
+  font-size: 18px;
+}
 h4 {
   font-family: mister-vampire;
   color: #384D26;
@@ -101,6 +104,9 @@ body {
     background-attachment: fixed;
     background-repeat: no-repeat;
     background-size: cover;
+}
+.game-over {
+  margin-top: 200px;
 }
 
 .background {

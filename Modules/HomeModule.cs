@@ -12,9 +12,13 @@ namespace TurtleTippers
           Get["/"] = _ => {
             Deck.DeleteAll();
             Player.DeleteAll();
-            Player player1 = new Player(5, "player1");
+            return View["index.cshtml"];
+          };
+
+          Post["/game"] = _ => {
+            Player player1 = new Player(5, Request.Form["player-1"]);
             player1.Save();
-            Player player2 = new Player(5, "player2");
+            Player player2 = new Player(5, Request.Form["player-2"]);
             player2.Save();
             Arena newArena = new Arena(player1.Id, player2.Id);
             Arena.SetCurrentPlayer();
@@ -27,7 +31,6 @@ namespace TurtleTippers
               Deck.DrawCard(player1);
               Deck.DrawCard(player2);
             }
-
             Dictionary<string, object> model = new Dictionary<string, object>();
             model.Add("turnPhase", Arena.TurnPhase);
             model.Add("player1", player1);
@@ -40,7 +43,9 @@ namespace TurtleTippers
             model.Add("otherInPlay", Deck.GetCardsInPlay(otherPlayer));
             model.Add("usedCardsPlayer1", Arena.HaveAttackedDeckIds1);
             model.Add("usedCardsPlayer2", Arena.HaveAttackedDeckIds2);
-            return View["index.cshtml", model];
+            model.Add("p1Deck", Deck.GetPlayerDeck(player1).Count);
+            model.Add("p2Deck", Deck.GetPlayerDeck(player2).Count);
+            return View["game.cshtml", model];
           };
 
           Post["/playCard"] = _ => {
@@ -72,7 +77,9 @@ namespace TurtleTippers
             model.Add("otherInPlay", Deck.GetCardsInPlay(otherPlayer));
             model.Add("usedCardsPlayer1", Arena.HaveAttackedDeckIds1);
             model.Add("usedCardsPlayer2", Arena.HaveAttackedDeckIds2);
-            return View["index.cshtml", model];
+            model.Add("p1Deck", Deck.GetPlayerDeck(player1).Count);
+            model.Add("p2Deck", Deck.GetPlayerDeck(player2).Count);
+            return View["game.cshtml", model];
           };
 
           Post["/combat"] = _ => {
@@ -100,7 +107,9 @@ namespace TurtleTippers
             model.Add("otherInPlay", Deck.GetCardsInPlay(otherPlayer));
             model.Add("usedCardsPlayer1", Arena.HaveAttackedDeckIds1);
             model.Add("usedCardsPlayer2", Arena.HaveAttackedDeckIds2);
-            return View["index.cshtml", model];
+            model.Add("p1Deck", Deck.GetPlayerDeck(player1).Count);
+            model.Add("p2Deck", Deck.GetPlayerDeck(player2).Count);
+            return View["game.cshtml", model];
           };
           Get["/combat"] = _ => {
             Arena.PartialTurnCount += 1;
@@ -122,7 +131,9 @@ namespace TurtleTippers
             model.Add("otherInPlay", Deck.GetCardsInPlay(otherPlayer));
             model.Add("usedCardsPlayer1", Arena.HaveAttackedDeckIds1);
             model.Add("usedCardsPlayer2", Arena.HaveAttackedDeckIds2);
-            return View["index.cshtml", model];
+            model.Add("p1Deck", Deck.GetPlayerDeck(player1).Count);
+            model.Add("p2Deck", Deck.GetPlayerDeck(player2).Count);
+            return View["game.cshtml", model];
           };
           Get["/turtle"] = _ => {
             Player currentPlayer = Player.Find(Arena.CurrentPlayerId);
@@ -151,7 +162,9 @@ namespace TurtleTippers
             model.Add("otherInPlay", Deck.GetCardsInPlay(otherPlayer));
             model.Add("usedCardsPlayer1", Arena.HaveAttackedDeckIds1);
             model.Add("usedCardsPlayer2", Arena.HaveAttackedDeckIds2);
-            return View["index.cshtml", model];
+            model.Add("p1Deck", Deck.GetPlayerDeck(player1).Count);
+            model.Add("p2Deck", Deck.GetPlayerDeck(player2).Count);
+            return View["game.cshtml", model];
           };
         }
     }
