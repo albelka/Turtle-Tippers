@@ -54,7 +54,7 @@ I1. Input 1
 3. Run the following command "dnu restore"
 4. You will need a database called "turtle-tippers" with the "cards", "decks" and "players" tables.
 5. Connect to your server and use the following command to create the database:
-
+*
        > CREATE DATABASE turtle-tippers;
        > GO
        > USE turtle-tippers;
@@ -65,7 +65,7 @@ I1. Input 1
        > GO
        > CREATE TABLE players (id INT IDENTITY(1,1), turtles INT, name VARCHAR(255));
        > GO
-       
+ *      
 6. Create a backup of above database called "turtle-tippers_test" and restore it.
 7. When writing your test, you can use the following command line on PowerShell for testing: "dnx test".  
 8. Run "dnx kestel" command to run this app
